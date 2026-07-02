@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jyoti Saini | Full Stack Developer</title>
+    <meta
+      name="description"
+      content="Portfolio of Jyoti Saini — Full Stack Developer specializing in React, Node.js, and AI-powered applications."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="cursor-glow" id="cursorGlow"></div>
+    <canvas id="particles" aria-hidden="true"></canvas>
+
+    <div class="loader" id="loader">
+      <div class="loader-ring"></div>
+      <p>Loading portfolio...</p>
+    </div>
+
+    <header class="navbar" id="navbar">
+      <a href="#home" class="brand">Jyoti<span>.</span></a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a href="#contact" class="nav-cta">Let's Talk</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+        <span></span><span></span>
+      </button>
+    </header>
+
+    <main>
+      <section id="home" class="hero">
+        <div class="hero-content">
+          <p class="eyebrow">Hello, I'm</p>
+          <h1 class="hero-title">
+            Jyoti <span class="gradient-text">Saini</span>
+          </h1>
+          <p class="hero-role">
+            I'm a <span id="typedText"></span><span class="cursor-blink">|</span>
+          </p>
+          <p class="hero-desc">
+            Full Stack Developer building responsive, AI-integrated web apps with
+            React, Node.js, Express, and MongoDB.
+          </p>
+          <div class="hero-actions">
+            <a href="#projects" class="btn btn-primary">View My Work</a>
+            <a href="#contact" class="btn btn-outline">Contact Me</a>
+          </div>
+          <div class="hero-socials">
+            <a href="https://github.com/jyotisaini-10" target="_blank" rel="noreferrer">GitHub</a>
+            <a href="https://www.linkedin.com/in/jyoti-saini-517130288" target="_blank" rel="noreferrer">LinkedIn</a>
+            <a href="https://leetcode.com/jyoti_saini10" target="_blank" rel="noreferrer">LeetCode</a>
+          </div>
+          <div class="hero-stats">
+            <div class="stat">
+              <strong>8.94</strong>
+              <span>CGPA</span>
+            </div>
+            <div class="stat">
+              <strong>3+</strong>
+              <span>Projects</span>
+            </div>
+            <div class="stat">
+              <strong>2</strong>
+              <span>Internships</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="orbit-ring ring-1"></div>
+          <div class="orbit-ring ring-2"></div>
+          <div class="hero-card-3d">
+            <img
+              src="./profile.png"
+              alt="Jyoti Saini"
+              class="avatar-img"
+            />
+            <div class="floating-badge badge-1">React.js</div>
+            <div class="floating-badge badge-2">Node.js</div>
+            <div class="floating-badge badge-3">MongoDB</div>
+            <div class="floating-badge badge-4">AI</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="section">
+        <div class="section-header">
+          <span class="section-tag">About</span>
+          <h2>Building digital experiences that matter</h2>
+        </div>
+        <div class="about-grid">
+          <div class="about-photo-wrap">
+            <img src="./profile.png" alt="Jyoti Saini" class="about-photo" />
+          </div>
+          <p class="about-text">
+            Passionate developer focused on clean UI, reliable backends, and
+            useful AI-powered products. Active competitive programmer with strong
+            DSA foundations. I enjoy solving real-world problems and
+            collaborating with teams to deliver quality features on time.
+          </p>
+          <div class="about-cards">
+            <article class="glass-card tilt-card">
+              <h3>Education</h3>
+              <p>B.Tech CSE — Expected Jun 2026</p>
+              <p class="muted">CDL State Institute, Sirsa</p>
+            </article>
+            <article class="glass-card tilt-card">
+              <h3>Focus</h3>
+              <p>Full Stack + AI Integration</p>
+              <p class="muted">Open Source & DSA</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="experience" class="section">
+        <div class="section-header">
+          <span class="section-tag">Experience</span>
+          <h2>Where I've worked</h2>
+        </div>
+        <div class="timeline">
+          <article class="timeline-item glass-card">
+            <div class="timeline-dot"></div>
+            <span class="timeline-date">Jul 2025 – Oct 2025</span>
+            <h3>Full Stack Web Development Intern</h3>
+            <p class="company">Code Alpha · Remote</p>
+            <ul>
+              <li>Built responsive React components with Node/Express backends.</li>
+              <li>Improved API handling and user interactivity across modules.</li>
+              <li>Fixed UI/UX bugs and ensured cross-browser compatibility.</li>
+            </ul>
+          </article>
+          <article class="timeline-item glass-card">
+            <div class="timeline-dot"></div>
+            <span class="timeline-date">Jul 2024 – Aug 2024</span>
+            <h3>Frontend Development Intern</h3>
+            <p class="company">TechnoBuds · Noida</p>
+            <ul>
+              <li>Engineered dynamic webpages with HTML, CSS, and JavaScript.</li>
+              <li>Delivered assigned modules on schedule with strong code quality.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section id="projects" class="section">
+        <div class="section-header">
+          <span class="section-tag">Projects</span>
+          <h2>Selected work</h2>
+        </div>
+        <div class="bento-grid">
+          <article class="bento-card bento-large glass-card tilt-card">
+            <div class="bento-glow"></div>
+            <span class="bento-tag">Featured</span>
+            <h3>AI-VCS</h3>
+            <p>
+              AI-powered version control platform with auth, repo management,
+              commit history, branching, and real-time diff visualization.
+            </p>
+            <div class="tech-tags">
+              <span>React</span><span>Node</span><span>Express</span
+              ><span>MongoDB</span><span>Vercel</span>
+            </div>
+            <a href="https://github.com/jyotisaini-10/ai-vcs-frontend" target="_blank" rel="noreferrer" class="project-link">View on GitHub →</a>
+          </article>
+          <article class="bento-card glass-card tilt-card">
+            <h3>Smart Code Review Assistant</h3>
+            <p>
+              AI tool that reviews code snippets and returns structured feedback
+              on bugs, quality, and best practices.
+            </p>
+            <div class="tech-tags">
+              <span>React</span><span>OpenAI</span><span>MongoDB</span>
+            </div>
+          </article>
+          <article class="bento-card glass-card tilt-card">
+            <h3>Real-Time Communication App</h3>
+            <p>
+              Low-latency chat app using Socket.io with room-based messaging and
+              concurrent users.
+            </p>
+            <div class="tech-tags">
+              <span>Node</span><span>Socket.io</span><span>JavaScript</span>
+            </div>
+            <a href="https://github.com/jyotisaini-10/codealpha_realtimecommunicationapp" target="_blank" rel="noreferrer" class="project-link">View on GitHub →</a>
+          </article>
+        </div>
+      </section>
+
+      <section id="skills" class="section">
+        <div class="section-header">
+          <span class="section-tag">Skills</span>
+          <h2>Technologies I work with</h2>
+        </div>
+        <div class="skills-grid">
+          <article class="skill-card glass-card tilt-card">
+            <div class="skill-icon">JS</div>
+            <h3>Languages</h3>
+            <p>JavaScript, Python, Java, SQL, HTML5, CSS3</p>
+          </article>
+          <article class="skill-card glass-card tilt-card">
+            <div class="skill-icon">⚛</div>
+            <h3>Frontend</h3>
+            <p>React.js, Bootstrap, Responsive Design</p>
+          </article>
+          <article class="skill-card glass-card tilt-card">
+            <div class="skill-icon">⚙</div>
+            <h3>Backend</h3>
+            <p>Node.js, Express.js, REST APIs, Socket.io</p>
+          </article>
+          <article class="skill-card glass-card tilt-card">
+            <div class="skill-icon">🗄</div>
+            <h3>Database</h3>
+            <p>MongoDB, MySQL</p>
+          </article>
+          <article class="skill-card glass-card tilt-card">
+            <div class="skill-icon">🛠</div>
+            <h3>Tools</h3>
+            <p>Git, GitHub, VS Code, Vercel, Postman</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="contact" class="section contact-section">
+        <div class="section-header">
+          <span class="section-tag">Contact</span>
+          <h2>Let's build something great</h2>
+        </div>
+        <div class="contact-grid">
+          <a href="mailto:jsaini8378@gmail.com" class="contact-card glass-card">
+            <span class="contact-label">Email</span>
+            <span>jsaini8378@gmail.com</span>
+          </a>
+          <a href="tel:+918708995452" class="contact-card glass-card">
+            <span class="contact-label">Phone</span>
+            <span>+91 8708995452</span>
+          </a>
+          <a
+            href="https://www.linkedin.com/in/jyoti-saini-517130288"
+            target="_blank"
+            rel="noreferrer"
+            class="contact-card glass-card"
+          >
+            <span class="contact-label">LinkedIn</span>
+            <span>jyoti-saini-517130288</span>
+          </a>
+          <a
+            href="https://github.com/jyotisaini-10"
+            target="_blank"
+            rel="noreferrer"
+            class="contact-card glass-card"
+          >
+            <span class="contact-label">GitHub</span>
+            <span>jyotisaini-10</span>
+          </a>
+          <a
+            href="https://leetcode.com/jyoti_saini10"
+            target="_blank"
+            rel="noreferrer"
+            class="contact-card glass-card"
+          >
+            <span class="contact-label">LeetCode</span>
+            <span>jyoti_saini10</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>© <span id="year"></span> Jyoti Saini. Crafted with passion.</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="./script.js"></script>
+  </body>
+</html>
