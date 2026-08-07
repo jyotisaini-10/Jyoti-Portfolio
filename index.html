@@ -313,20 +313,21 @@
 
     /* ══ NAVBAR ══ */
     .navbar {
-      position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
-      z-index: 500; width: min(960px, calc(100% - 40px));
+      position: sticky; top: 0; left: 0; right: 0;
+      z-index: 500; width: 100%;
       display: flex; align-items: center; gap: 20px;
-      padding: 10px 22px; border-radius: var(--r-md);
-      background: rgba(2,2,14,0.82); border: 1px solid rgba(255,45,120,0.16);
-      backdrop-filter: blur(24px);
-      transition: background 0.35s, box-shadow 0.35s;
+      padding: 0 32px; height: 60px;
+      background: rgba(2,2,14,0.92); border-bottom: 1px solid rgba(255,45,120,0.14);
+      backdrop-filter: blur(20px);
+      transition: transform 0.35s cubic-bezier(.22,.68,0,1.2), box-shadow 0.3s;
     }
-    .navbar::before {
-      content: ''; position: absolute; left: 0; bottom: -1px; right: 0; height: 1px;
-      background: linear-gradient(90deg, transparent, var(--rose), var(--ice), var(--purple), transparent);
-      opacity: 0.5;
+    .navbar::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent 0%, var(--rose) 30%, var(--ice) 70%, transparent 100%);
+      opacity: 0.35;
     }
-    .navbar.scrolled { box-shadow: 0 8px 40px rgba(255,45,120,0.15); }
+    .navbar.nav-hidden { transform: translateY(-100%); }
+    .navbar.scrolled { box-shadow: 0 4px 32px rgba(0,0,0,0.5); }
     .nav-logo {
       font-family: var(--font-head); font-weight: 800; font-size: 1.25rem;
       letter-spacing: -0.04em; flex-shrink: 0; white-space: nowrap;
@@ -372,8 +373,57 @@
     .mobile-menu .nav-cta { font-size: 1rem; padding: 13px 38px; margin-top: 16px; }
 
     /* ══ HERO ══ */
-    .hero { min-height: 100vh; display: flex; align-items: center; position: relative; overflow: hidden; padding-top: 100px; }
-    .hero-grid { display: grid; grid-template-columns: 1fr 460px; gap: 60px; align-items: center; padding: 60px 0; min-height: calc(100vh - 100px); }
+    .hero { min-height: calc(100vh - 60px); display: flex; align-items: center; position: relative; overflow: hidden; }
+    .hero-grid { display: grid; grid-template-columns: 1fr 440px; gap: 60px; align-items: center; padding: 70px 0; min-height: calc(100vh - 60px); }
+
+    /* ══ HERO TERMINAL (new clean version) ══ */
+    .dev-card {
+      background: rgba(4,4,16,0.94);
+      border: 1px solid rgba(255,45,120,0.22);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      box-shadow: 0 0 0 1px rgba(0,229,255,0.06) inset,
+                  0 32px 80px rgba(0,0,0,0.7),
+                  0 0 50px rgba(255,45,120,0.1);
+      animation: tc-float 7s ease-in-out infinite;
+    }
+    @keyframes tc-float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-14px);} }
+    .dev-card-bar {
+      display: flex; align-items: center; gap: 8px;
+      padding: 12px 16px; background: rgba(255,255,255,0.025);
+      border-bottom: 1px solid rgba(255,45,120,0.12);
+    }
+    .dev-card-bar .dots { display:flex;gap:6px; }
+    .dev-card-bar .dot { width:10px;height:10px;border-radius:50%; }
+    .dev-card-bar .dot.r{background:#ff5f57;} .dev-card-bar .dot.y{background:#ffbd2e;} .dev-card-bar .dot.g{background:#28c840;}
+    .dev-card-bar .bar-title { flex:1; text-align:center; font-family:var(--font-mono); font-size:0.58rem; color:var(--text-dim); letter-spacing:0.06em; }
+    .dev-card-body { padding: 18px 20px 22px; }
+    .dc-line { display:flex; align-items:flex-start; gap:10px; margin-bottom:4px; }
+    .dc-prompt { color:var(--rose); font-family:var(--font-mono); font-size:0.72rem; flex-shrink:0; text-shadow:0 0 8px var(--rose-glow); user-select:none; }
+    .dc-cmd   { font-family:var(--font-mono); font-size:0.72rem; color:var(--ice); }
+    .dc-out   { font-family:var(--font-mono); font-size:0.68rem; line-height:1.75; padding-left:4px; margin-bottom:3px; }
+    .dc-key   { color:var(--text-muted); }
+    .dc-val   { color:var(--text); }
+    .dc-rose  { color:var(--rose); text-shadow:0 0 6px var(--rose-glow); }
+    .dc-ice   { color:var(--ice);  text-shadow:0 0 6px var(--ice-glow); }
+    .dc-lime  { color:var(--lime); }
+    .dc-dim   { color:var(--text-dim); }
+    .dc-spacer{ height:10px; }
+    .dc-row { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:4px; }
+    .dc-stat {
+      display:flex; flex-direction:column; align-items:center;
+      padding:8px 14px; border-radius:var(--r-sm);
+      background:rgba(255,255,255,0.03); border:1px solid var(--border);
+      min-width:72px;
+    }
+    .dc-stat-num { font-family:var(--font-head); font-size:1.3rem; font-weight:800; line-height:1; margin-bottom:2px; }
+    .dc-stat-lbl { font-family:var(--font-mono); font-size:0.52rem; color:var(--text-dim); letter-spacing:0.1em; text-transform:uppercase; }
+    .dc-blink { display:inline-block;width:7px;height:0.85em;background:var(--rose);vertical-align:middle;animation:blink 0.8s step-end infinite;margin-left:1px;box-shadow:0 0 6px var(--rose-glow); }
+    .dc-check { color:var(--lime); margin-right:4px; }
+    .dc-proj-row { display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:1px solid var(--border); font-family:var(--font-mono); font-size:0.66rem; }
+    .dc-proj-row:last-child { border-bottom:none; }
+    .dc-proj-name { color:var(--text); font-weight:600; }
+    .dc-proj-tag  { color:var(--ice); font-size:0.58rem; background:rgba(0,229,255,0.07); padding:2px 7px; border-radius:3px; border:1px solid rgba(0,229,255,0.15); }
 
     /* Status pill */
     .status-pill {
@@ -862,10 +912,9 @@
             </div>
 
             <p class="hero-bio reveal d3">
-              <strong>Full Stack Developer &amp; Software Engineer</strong> crafting
-              <strong>AI-powered products</strong> with React, Node.js &amp; modern tooling.
-              I care about clean code, great UX, and shipping things that
-              <span class="hi">actually work</span>.
+              I build things with React, Node.js, and some ML on the side.
+              Final year CS student, two internships done, three production
+              apps shipped. Currently looking for a <span class="hi">full-time role</span>.
             </p>
 
             <div class="hero-btns reveal d4">
@@ -895,51 +944,75 @@
             </div>
           </div>
 
-          <!-- RIGHT — Visual -->
+          <!-- RIGHT — Clean Dev Card -->
           <div class="hero-right">
-            <div class="hero-visual-wrap">
-              <div class="hex-ring hr1"><div class="hr-dot hr-dot-r"></div></div>
-              <div class="hex-ring hr2"><div class="hr-dot hr-dot-i" style="top:auto;bottom:-4px;"></div></div>
+            <div class="dev-card">
+              <div class="dev-card-bar">
+                <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+                <div class="bar-title">jyoti@dev: ~/portfolio</div>
+              </div>
+              <div class="dev-card-body">
 
-              <div class="float-badge fb1">⚛️ React.js</div>
-              <div class="float-badge fb2">🟩 Node.js</div>
-              <div class="float-badge fb3">🤖 OpenAI</div>
-              <div class="float-badge fb4">🍃 MongoDB</div>
-
-              <div class="terminal-card">
-                <div class="term-bar">
-                  <div class="term-dots"><div class="term-dot r"></div><div class="term-dot y"></div><div class="term-dot g"></div></div>
-                  <div class="term-title">jyoti@dev ~ terminal</div>
-                  <span style="font-family:var(--font-mono);font-size:0.54rem;color:var(--rose);background:rgba(255,45,120,0.1);border:1px solid rgba(255,45,120,0.25);padding:2px 7px;border-radius:3px;">v3.1</span>
+                <div class="dc-line">
+                  <span class="dc-prompt">❯</span>
+                  <span class="dc-cmd">whoami</span>
                 </div>
-                <div class="term-body">
-                  <div class="term-line">
-                    <span class="term-prompt">❯</span>
-                    <span class="term-cmd">node jyoti.js</span>
+                <div class="dc-out">
+                  <span class="dc-key">name    </span><span class="dc-val"> Jyoti Saini</span><br>
+                  <span class="dc-key">role    </span><span class="dc-ice"> Full Stack Developer</span><br>
+                  <span class="dc-key">location</span><span class="dc-val"> Sirsa, Haryana 🇮🇳</span><br>
+                  <span class="dc-key">status  </span><span class="dc-lime"> ● open to work</span>
+                </div>
+
+                <div class="dc-spacer"></div>
+
+                <div class="dc-line">
+                  <span class="dc-prompt">❯</span>
+                  <span class="dc-cmd">cat stats.json</span>
+                </div>
+                <div class="dc-row" style="margin-top:8px;margin-bottom:8px;">
+                  <div class="dc-stat">
+                    <div class="dc-stat-num dc-rose">3</div>
+                    <div class="dc-stat-lbl">live apps</div>
                   </div>
-                  <div class="badge-wrap">
-                    <div class="badge-avatar">
-                      <img src="profile.png" alt="Jyoti Saini" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-                      <div class="badge-avatar-fb" style="display:none">JS</div>
-                    </div>
-                    <div class="badge-info">
-                      <div class="badge-name">Jyoti Saini</div>
-                      <div class="badge-role-tag">Full Stack Dev</div>
-                      <div class="badge-status">Available for work</div>
-                    </div>
+                  <div class="dc-stat">
+                    <div class="dc-stat-num dc-ice">9.07</div>
+                    <div class="dc-stat-lbl">cgpa</div>
                   </div>
-                  <div class="term-out"><span class="tk">const</span> <span class="tv">dev</span> = {</div>
-                  <div class="term-out">&nbsp;&nbsp;<span class="tk">name</span>: <span class="ts">"Jyoti Saini"</span>,</div>
-                  <div class="term-out">&nbsp;&nbsp;<span class="tk">stack</span>: [<span class="ts">"React"</span>, <span class="ts">"Node"</span>],</div>
-                  <div class="term-out">&nbsp;&nbsp;<span class="tk">loves</span>: <span class="ts">"Clean code"</span>,</div>
-                  <div class="term-out">&nbsp;&nbsp;<span class="tk">ai</span>: <span class="tb">true</span></div>
-                  <div class="term-out">}</div>
-                  <div class="term-spacer"></div>
-                  <div class="term-line">
-                    <span class="term-prompt">❯</span>
-                    <span class="term-cmd" id="termLive"></span><span class="term-blink"></span>
+                  <div class="dc-stat">
+                    <div class="dc-stat-num" style="color:var(--lime);">2</div>
+                    <div class="dc-stat-lbl">internships</div>
                   </div>
                 </div>
+
+                <div class="dc-spacer"></div>
+
+                <div class="dc-line">
+                  <span class="dc-prompt">❯</span>
+                  <span class="dc-cmd">ls projects/ --deployed</span>
+                </div>
+                <div style="margin-top:6px;margin-bottom:4px;">
+                  <div class="dc-proj-row">
+                    <span><span class="dc-check">✓</span><span class="dc-proj-name">CommitIQ</span></span>
+                    <span class="dc-proj-tag">live ↗</span>
+                  </div>
+                  <div class="dc-proj-row">
+                    <span><span class="dc-check">✓</span><span class="dc-proj-name">Ledgerline</span></span>
+                    <span class="dc-proj-tag">live ↗</span>
+                  </div>
+                  <div class="dc-proj-row">
+                    <span><span class="dc-check">✓</span><span class="dc-proj-name">AuditAlly</span></span>
+                    <span class="dc-proj-tag">live ↗</span>
+                  </div>
+                </div>
+
+                <div class="dc-spacer"></div>
+
+                <div class="dc-line">
+                  <span class="dc-prompt">❯</span>
+                  <span class="dc-cmd" id="termLive"></span><span class="dc-blink"></span>
+                </div>
+
               </div>
             </div>
           </div>
@@ -952,20 +1025,20 @@
       <div class="container">
         <div class="reveal">
           <span class="eyebrow">About me</span>
-          <h2 class="section-title">Crafting <span class="neon-text">digital experiences</span></h2>
-          <p class="section-sub">Passionate about building products that blend elegant UI with powerful backend architecture and AI intelligence.</p>
+          <h2 class="section-title">Who I <span class="neon-text">actually am</span></h2>
+          <p class="section-sub">Not a template. Not lorem ipsum. Just someone who genuinely likes building things.</p>
         </div>
 
         <div class="about-grid">
           <div class="about-left">
             <div class="bio-card reveal d1">
               <p class="bio-text">
-                I'm a <strong>Full Stack Developer &amp; CS student</strong> at CDLU, Sirsa with a <strong>CGPA of 9.07/10</strong>, building
-                AI-powered and ML-integrated products that actually ship. My stack spans <strong>React</strong>, <strong>Next.js</strong>,
-                <strong>Node.js</strong>, <strong>PostgreSQL</strong>, <strong>Redis</strong>, and cutting-edge <strong>Groq LLM APIs</strong>.<br><br>
-                I've built fintech apps with ML anomaly detection, GitHub-style collaboration platforms with vector search, and
-                AI accessibility auditors — all containerized with <strong>Docker</strong> and deployed to production. I'm a
-                <span class="hi">competitive programmer</span> passionate about AI-integrated engineering.
+                Final-year CS student at CDLU, Sirsa — <strong>CGPA 9.07</strong>. I write backend code that handles real problems.
+                Subscription detection that uses actual ML models. An accessibility auditor that reads violation logs and
+                explains them in plain English. A code platform where commits get AI-reviewed automatically.<br><br>
+                Two internships, three production apps, a lot of Stack Overflow, and I still get excited when
+                a <span class="hi">Redis pub/sub pipeline</span> clicks into place. Not every project is greenfield —
+                I like debugging other people's code too.
               </p>
             </div>
             <div class="stats-row">
@@ -1139,53 +1212,49 @@
 /* ══ DATA ══ */
 const SKILLS = [
   // Frontend
-  { icon:'⚛️', name:'React.js',      cat:'Frontend'  },
-  { icon:'▲',  name:'Next.js',       cat:'Frontend'  },
-  { icon:'🎨', name:'CSS3 / SCSS',   cat:'Frontend'  },
-  { icon:'📱', name:'Bootstrap',     cat:'Frontend'  },
+  { icon:'⚛️', name:'React.js',    cat:'Frontend'  },
+  { icon:'▲',  name:'Next.js',     cat:'Frontend'  },
+  { icon:'🎨', name:'CSS3 / SCSS', cat:'Frontend'  },
+  { icon:'📱', name:'Bootstrap',   cat:'Frontend'  },
   // Languages
-  { icon:'⚡', name:'JavaScript',    cat:'Language'  },
-  { icon:'🐍', name:'Python',        cat:'Language'  },
-  { icon:'☕', name:'Java',          cat:'Language'  },
-  { icon:'🗄️', name:'SQL',           cat:'Language'  },
+  { icon:'⚡', name:'JavaScript',  cat:'Language'  },
+  { icon:'🐍', name:'Python',      cat:'Language'  },
+  { icon:'☕', name:'Java',        cat:'Language'  },
+  { icon:'🗃️', name:'SQL',         cat:'Language'  },
   // Backend
-  { icon:'🟩', name:'Node.js',       cat:'Backend'   },
-  { icon:'🚂', name:'Express.js',    cat:'Backend'   },
-  { icon:'🔌', name:'Socket.io',     cat:'Backend'   },
-  { icon:'🔐', name:'JWT Auth',      cat:'Backend'   },
-  { icon:'📬', name:'BullMQ',        cat:'Backend'   },
-  { icon:'📡', name:'SSE',           cat:'Backend'   },
+  { icon:'🟩', name:'Node.js',     cat:'Backend'   },
+  { icon:'🚂', name:'Express.js',  cat:'Backend'   },
+  { icon:'🔌', name:'Socket.io',   cat:'Backend'   },
+  { icon:'📬', name:'BullMQ',      cat:'Backend'   },
   // Database
-  { icon:'🍃', name:'MongoDB',       cat:'Database'  },
-  { icon:'🐘', name:'PostgreSQL',    cat:'Database'  },
-  { icon:'🐬', name:'MySQL',         cat:'Database'  },
-  { icon:'⚡', name:'Redis',         cat:'Database'  },
+  { icon:'🍃', name:'MongoDB',     cat:'Database'  },
+  { icon:'🐘', name:'PostgreSQL',  cat:'Database'  },
+  { icon:'🐬', name:'MySQL',       cat:'Database'  },
+  { icon:'⚡', name:'Redis',       cat:'Database'  },
   // AI / ML
-  { icon:'🤖', name:'Groq API',      cat:'AI / ML'   },
-  { icon:'🧠', name:'LLM Integration',cat:'AI / ML'  },
-  { icon:'📊', name:'scikit-learn',  cat:'AI / ML'   },
-  { icon:'🌐', name:'Vector Search', cat:'AI / ML'   },
+  { icon:'🤖', name:'Groq API',    cat:'AI / ML'   },
+  { icon:'📊', name:'scikit-learn',cat:'AI / ML'   },
+  { icon:'📡', name:'FastAPI',     cat:'AI / ML'   },
+  { icon:'🎭', name:'Puppeteer',   cat:'AI / ML'   },
   // Tools
-  { icon:'🐙', name:'Git / GitHub',  cat:'Tools'     },
-  { icon:'🐳', name:'Docker',        cat:'Tools'     },
-  { icon:'🎭', name:'Puppeteer',     cat:'Tools'     },
-  { icon:'♿', name:'axe-core',      cat:'Tools'     },
-  { icon:'🧪', name:'Postman',       cat:'Tools'     },
-  { icon:'▲',  name:'Vercel',        cat:'Tools'     },
+  { icon:'🐙', name:'Git / GitHub',cat:'Tools'     },
+  { icon:'🐳', name:'Docker',      cat:'Tools'     },
+  { icon:'🧪', name:'Postman',     cat:'Tools'     },
+  { icon:'▲',  name:'Vercel',      cat:'Tools'     },
 ];
 
 const PROJECTS = [
   {
     title: 'CommitIQ',
-    desc: 'Full-stack GitHub-style AI collaboration platform with JWT auth, repo management, commit history, diff visualization, AI merge-conflict resolver, and semantic code search using vector embeddings.',
-    tags: ['React.js','Node.js','Express','MongoDB','Redis','Groq API','Docker','Vercel'],
+    desc: 'GitHub-style code hosting platform with JWT auth, repo management, commit history, diff viewer, AI-generated commit messages via Groq, and semantic code search. Full Docker deployment.',
+    tags: ['React.js','Node.js','MongoDB','Redis','Groq API','Docker'],
     grad: 'pg1', icon: '🔀',
     link: 'https://commit-iq-self.vercel.app/',
     github: 'https://github.com/jyotisaini-10'
   },
   {
     title: 'Ledgerline',
-    desc: 'ML-powered fintech app that detects recurring subscriptions and flags anomalous transactions in real-time using Isolation Forest and unsupervised clustering — no LLM wrapper, pure ML.',
+    desc: 'Fintech app that detects recurring subscriptions and scores transaction anomaly risk — using a trained Isolation Forest and unsupervised clustering, not an LLM. Real-time alerts via Redis pub/sub + SSE.',
     tags: ['Next.js','Node.js','PostgreSQL','Redis','Python','FastAPI','scikit-learn','Docker'],
     grad: 'pg2', icon: '📊',
     link: 'https://ledgerline-flax.vercel.app/',
@@ -1193,34 +1262,10 @@ const PROJECTS = [
   },
   {
     title: 'AuditAlly',
-    desc: 'AI-powered accessibility auditor that scans any URL with Puppeteer + axe-core, then uses a Groq LLM to translate WCAG violations into plain-language explanations and ready-to-use code fixes.',
+    desc: 'Scans any URL with Puppeteer + axe-core for WCAG violations, then pipes the results through a Groq LLM to give plain-English fixes. Async job queue via BullMQ, regression tracking over time.',
     tags: ['React.js','Node.js','Puppeteer','axe-core','BullMQ','Redis','Groq API','Docker'],
     grad: 'pg3', icon: '♿',
     link: 'https://audit-ally-seven.vercel.app/',
-    github: 'https://github.com/jyotisaini-10'
-  },
-  {
-    title: 'Real-Time Chat',
-    desc: 'Low-latency room-based chat app using Socket.io, supporting concurrent users, live broadcasting, typing indicators, and real-time presence detection.',
-    tags: ['Node.js','Socket.io','JavaScript','Express'],
-    grad: 'pg4', icon: '💬',
-    link: 'https://github.com/jyotisaini-10/codealpha_realtimecommunicationapp',
-    github: null
-  },
-  {
-    title: 'DSA Tracker',
-    desc: 'LeetCode-style problem tracker with topic filters, difficulty tags, progress visualization, and local persistence — built for competitive programming prep.',
-    tags: ['React','localStorage','CSS'],
-    grad: 'pg5', icon: '🧠',
-    link: null,
-    github: null
-  },
-  {
-    title: 'Portfolio v2',
-    desc: 'This portfolio — cyberpunk neon noir themed with crosshair cursor + spark trail, glitch animations, clip-path reveals, and dot-grid background.',
-    tags: ['HTML','CSS','JavaScript','Animations'],
-    grad: 'pg6', icon: '🌐',
-    link: 'https://jyoti-portfolio-pink.vercel.app',
     github: 'https://github.com/jyotisaini-10'
   },
 ];
@@ -1521,8 +1566,15 @@ function initNav() {
   const ham    = document.getElementById('navHam');
   const mobile = document.getElementById('mobileMenu');
   const links  = document.querySelectorAll('.nav-link[data-section]');
+  let lastY = 0;
   window.addEventListener('scroll', () => {
-    navbar.classList.toggle('scrolled', window.scrollY > 60);
+    const y = window.scrollY;
+    navbar.classList.toggle('scrolled', y > 40);
+    // Hide on scroll down, show on scroll up
+    if (y > lastY && y > 120) navbar.classList.add('nav-hidden');
+    else navbar.classList.remove('nav-hidden');
+    lastY = y;
+    // Scroll spy
     let current = 'home';
     ['home','about','skills','projects','contact'].forEach(id => {
       const s = document.getElementById(id);
