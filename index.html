@@ -14,6 +14,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2302020a'/%3E%3Crect x='1' y='1' width='62' height='62' rx='11' fill='none' stroke='%23ff2d78' stroke-width='2'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='800' font-size='28' fill='%23ff2d78'%3EJS%3C/text%3E%3C/svg%3E" />
+  <link rel="shortcut icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2302020a'/%3E%3Ctext x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui,sans-serif' font-weight='800' font-size='28' fill='%23ff2d78'%3EJS%3C/text%3E%3C/svg%3E" />
+
   <style>
     /* ══════════════════════════════════════════════════════════
        CYBERPUNK NEON NOIR — DESIGN TOKENS
@@ -723,17 +727,22 @@
     .footer-links a:hover { color: var(--rose); text-shadow: 0 0 8px var(--rose-glow); }
 
     /* ══ SCROLL REVEAL — Clip-path wipe ══ */
+    /* ══ SCROLL REVEAL — translateY + opacity (reliable everywhere) ══ */
     .reveal {
-      opacity: 0; clip-path: inset(0 0 100% 0);
-      transition: opacity 0.65s cubic-bezier(.22,.68,0,1.2),
-                  clip-path 0.65s cubic-bezier(.22,.68,0,1.2);
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s cubic-bezier(.22,.68,0,1.15),
+                  transform 0.7s cubic-bezier(.22,.68,0,1.15);
     }
-    .reveal.visible { opacity: 1; clip-path: inset(0 0 0% 0); }
-    .reveal.from-left { clip-path: inset(0 100% 0 0); }
-    .reveal.from-right { clip-path: inset(0 0 0 100%); }
-    .reveal.from-left.visible, .reveal.from-right.visible { clip-path: inset(0 0 0 0); }
-    .d1{transition-delay:.08s;}.d2{transition-delay:.16s;}.d3{transition-delay:.24s;}
-    .d4{transition-delay:.32s;}.d5{transition-delay:.40s;}.d6{transition-delay:.48s;}
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal.from-left  { transform: translateX(-40px); }
+    .reveal.from-right { transform: translateX(40px);  }
+    .reveal.from-left.visible, .reveal.from-right.visible { transform: translateX(0); }
+    .d1{transition-delay:.07s;}.d2{transition-delay:.14s;}.d3{transition-delay:.21s;}
+    .d4{transition-delay:.28s;}.d5{transition-delay:.35s;}.d6{transition-delay:.42s;}
 
     /* ══ RESPONSIVE ══ */
     @media (max-width: 1100px) {
@@ -1471,10 +1480,25 @@ function renderProjects() {
 
 /* ══ SCROLL REVEAL ══ */
 function initReveal() {
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
-  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  const els = document.querySelectorAll('.reveal');
+  // Immediately reveal anything already in the viewport (no delay)
+  const vH = window.innerHeight;
+  els.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < vH) el.classList.add('visible');
+  });
+  // Observer for the rest as user scrolls
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.05, rootMargin: '0px 0px 40px 0px' });
+    els.forEach(el => { if (!el.classList.contains('visible')) io.observe(el); });
+  } else {
+    // Fallback: reveal all
+    els.forEach(el => el.classList.add('visible'));
+  }
 }
 
 /* ══ STAT COUNTERS ══ */
@@ -1553,7 +1577,11 @@ const fyEl = document.getElementById('footerYear');
 if (fyEl) fyEl.textContent = new Date().getFullYear();
 
 /* ══ INIT ══ */
-renderSkills(); renderProjects(); initReveal(); initCounters(); initNav(); initForm();
+renderSkills();
+renderProjects();
+// Small rAF delay ensures DOM is fully laid out before reveal runs
+requestAnimationFrame(() => requestAnimationFrame(() => { initReveal(); }));
+initCounters(); initNav(); initForm();
 </script>
 
 </body>
