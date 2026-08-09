@@ -499,26 +499,46 @@
     .social-chip svg { width: 13px; height: 13px; fill: currentColor; flex-shrink: 0; }
     .social-chip:hover { border-color: var(--rose); color: var(--rose); background: rgba(255,45,120,0.07); transform: translateY(-2px); box-shadow: 0 4px 18px var(--rose-glow); }
 
-    /* Hero Right — Visual */
-    .hero-right { display: flex; align-items: center; justify-content: center; position: relative; }
-    .hero-visual-wrap { position: relative; width: 420px; height: 480px; }
-
-    /* Hex grid rings */
-    .hex-ring {
-      position: absolute; border-radius: 50%;
-      left: 50%; top: 50%; transform: translate(-50%,-50%);
-      border: 1px dashed rgba(255,45,120,0.15);
+    /* Hero Right — Profile Photo */
+    .hero-right { display: flex; align-items: center; justify-content: center; }
+    .hero-photo-wrap { position: relative; width: 380px; }
+    .hero-photo-ring {
+      width: 340px; height: 340px; border-radius: 50%; margin: 0 auto;
+      background: conic-gradient(var(--rose), var(--purple), var(--ice), var(--lime), var(--rose));
+      padding: 3px; animation: ring-spin 8s linear infinite;
     }
-    .hr1 { width: 340px; height: 340px; animation: hr-spin 28s linear infinite; border-color: rgba(255,45,120,0.18); }
-    .hr2 { width: 440px; height: 440px; animation: hr-spin 40s linear infinite reverse; border-color: rgba(0,229,255,0.12); border-style: solid; border-width: 1px; }
-    @keyframes hr-spin { to { transform: translate(-50%,-50%) rotate(360deg); } }
-    .hr-dot {
-      position: absolute; width: 8px; height: 8px;
-      top: -4px; left: calc(50% - 4px);
-      border-radius: 50%; box-shadow: 0 0 10px currentColor;
+    @keyframes ring-spin { to { transform: rotate(360deg); } }
+    .hero-photo-inner {
+      width: 100%; height: 100%; border-radius: 50%;
+      overflow: hidden; background: var(--bg-2);
+      animation: ring-spin-rev 8s linear infinite;
     }
-    .hr-dot-r { background: var(--rose); color: var(--rose); }
-    .hr-dot-i { background: var(--ice); color: var(--ice); }
+    @keyframes ring-spin-rev { to { transform: rotate(-360deg); } }
+    .hero-photo-inner img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+    .hero-float-stat {
+      position: absolute;
+      background: rgba(4,4,18,0.92); border-radius: var(--r-md);
+      padding: 10px 16px; backdrop-filter: blur(16px);
+      display: flex; flex-direction: column; align-items: center; gap: 1px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+      animation: fbadge 4s ease-in-out infinite;
+    }
+    .hfs-num { font-family: var(--font-head); font-size: 1.4rem; font-weight: 800; line-height: 1; }
+    .hfs-lbl { font-family: var(--font-mono); font-size: 0.55rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; }
+    .hfs-1 { top: 10px;  left: -20px; border: 1px solid rgba(255,45,120,0.3); animation-delay: 0s;   }
+    .hfs-1 .hfs-num { color: var(--rose); text-shadow: 0 0 12px var(--rose-glow); }
+    .hfs-2 { top: 10px;  right: -20px; border: 1px solid rgba(0,229,255,0.3); animation-delay: 1.2s; }
+    .hfs-2 .hfs-num { color: var(--ice);  text-shadow: 0 0 12px var(--ice-glow); }
+    .hfs-3 { bottom: 50px; left: -10px; border: 1px solid rgba(180,255,57,0.3); animation-delay: 0.7s; }
+    .hfs-3 .hfs-num { color: var(--lime); text-shadow: 0 0 12px var(--lime-glow); }
+    .hero-avail-badge {
+      position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(4,4,18,0.92); border: 1px solid rgba(180,255,57,0.3);
+      padding: 8px 18px; border-radius: 100px; backdrop-filter: blur(16px);
+      font-family: var(--font-mono); font-size: 0.65rem; color: var(--lime);
+      white-space: nowrap; box-shadow: 0 0 20px rgba(180,255,57,0.1);
+    }
 
     /* Terminal / code card */
     .terminal-card {
@@ -675,50 +695,83 @@
     .skill-tile.hidden { display: none; }
 
     /* ══ PROJECTS ══ */
-    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 50px; }
+    .projects-list { display: flex; flex-direction: column; gap: 28px; margin-top: 50px; }
     .project-card {
-      display: flex; flex-direction: column;
+      display: grid; grid-template-columns: 340px 1fr;
       border-radius: var(--r-lg); overflow: hidden; background: var(--panel);
       border: 1px solid var(--border);
       transition: all 0.32s ease; position: relative;
-      transform-style: preserve-3d;
+      min-height: 220px;
     }
-    /* Animated neon border on hover */
+    .project-card:nth-child(even) { grid-template-columns: 1fr 340px; }
+    .project-card:nth-child(even) .proj-thumb { order: 2; }
+    .project-card:nth-child(even) .proj-body  { order: 1; }
     .project-card::before {
       content: ''; position: absolute; inset: 0; border-radius: var(--r-lg);
-      background: linear-gradient(135deg, rgba(255,45,120,0.08), transparent 55%);
+      background: linear-gradient(135deg, rgba(255,45,120,0.05), transparent 55%);
       opacity: 0; transition: opacity 0.35s; pointer-events: none;
     }
     .project-card::after {
-      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg, var(--rose), var(--purple), var(--ice));
-      transform: scaleX(0); transform-origin: left; transition: transform 0.4s;
-      box-shadow: 0 0 10px var(--rose-glow);
+      content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+      background: linear-gradient(to bottom, var(--rose), var(--purple), var(--ice));
+      transform: scaleY(0); transform-origin: top; transition: transform 0.4s;
     }
-    .project-card:hover { border-color: rgba(255,45,120,0.26); box-shadow: 0 24px 60px rgba(0,0,0,0.55), 0 0 40px rgba(255,45,120,0.08); }
+    .project-card:hover { border-color: rgba(255,45,120,0.26); box-shadow: 0 24px 60px rgba(0,0,0,0.55), 0 0 40px rgba(255,45,120,0.06); transform: translateY(-4px); }
     .project-card:hover::before { opacity: 1; }
-    .project-card:hover::after { transform: scaleX(1); }
-    .proj-thumb { height: 155px; position: relative; display: flex; align-items: flex-end; padding: 14px; overflow: hidden; }
-    .proj-thumb::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,8,26,1) 0%, transparent 65%); }
-    .proj-num { position: absolute; top: 12px; left: 12px; z-index: 1; font-family: var(--font-mono); font-size: 0.56rem; font-weight: 600; color: rgba(255,255,255,0.22); letter-spacing: 0.06em; }
-    .proj-icon { position: absolute; top: 10px; right: 10px; z-index: 1; width: 38px; height: 38px; border-radius: var(--r-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; font-size: 1.05rem; }
-    .proj-title-ov { font-family: var(--font-head); font-size: 1.02rem; font-weight: 700; color: #fff; position: relative; z-index: 1; letter-spacing: -0.02em; }
-    .proj-body { padding: 16px 18px 18px; flex: 1; display: flex; flex-direction: column; gap: 11px; }
-    .proj-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.7; flex: 1; }
+    .project-card:hover::after  { transform: scaleY(1); }
+    .proj-thumb {
+      position: relative; overflow: hidden;
+      min-height: 220px; flex-shrink: 0;
+    }
+    .proj-thumb img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform 0.5s ease;
+      display: block;
+    }
+    .project-card:hover .proj-thumb img { transform: scale(1.04); }
+    .proj-thumb-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, transparent 60%, rgba(8,8,26,0.85) 100%);
+    }
+    .project-card:nth-child(even) .proj-thumb-overlay {
+      background: linear-gradient(to left, transparent 60%, rgba(8,8,26,0.85) 100%);
+    }
+    .proj-num { position: absolute; top: 12px; left: 12px; z-index: 2; font-family: var(--font-mono); font-size: 0.56rem; font-weight: 600; color: rgba(255,255,255,0.5); letter-spacing: 0.06em; background: rgba(0,0,0,0.4); padding: 3px 8px; border-radius: 3px; }
+    .proj-icon { position: absolute; bottom: 12px; right: 12px; z-index: 2; width: 38px; height: 38px; border-radius: var(--r-sm); border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+    .proj-body { padding: 28px 32px; flex: 1; display: flex; flex-direction: column; gap: 12px; justify-content: center; }
+    .proj-title-ov { font-family: var(--font-head); font-size: 1.4rem; font-weight: 800; color: var(--text); letter-spacing: -0.03em; }
+    .proj-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.75; flex: 1; max-width: 480px; }
     .proj-tags { display: flex; flex-wrap: wrap; gap: 5px; }
     .proj-tag { font-family: var(--font-mono); font-size: 0.56rem; font-weight: 500; color: var(--ice); background: rgba(0,229,255,0.07); border: 1px solid rgba(0,229,255,0.18); padding: 3px 9px; border-radius: var(--r-xs); }
-    .proj-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 10px; border-top: 1px solid var(--border); }
-    .proj-link { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 0.64rem; font-weight: 600; color: var(--rose); transition: gap 0.2s, color 0.2s, text-shadow 0.2s; }
+    .proj-footer { display: flex; align-items: center; gap: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
+    .proj-link { display: inline-flex; align-items: center; gap: 5px; font-family: var(--font-mono); font-size: 0.68rem; font-weight: 600; color: var(--rose); transition: gap 0.2s, color 0.2s, text-shadow 0.2s; }
     .proj-link:hover { gap: 10px; color: var(--ice); text-shadow: 0 0 8px var(--ice-glow); }
     .proj-link.priv { color: var(--text-dim); cursor: default; }
     .pg1 { background: linear-gradient(135deg, #1a0d3e, #0d1640, #0a1a2c); }
     .pg2 { background: linear-gradient(135deg, #0a1e10, #041a1a, #0a1230); }
     .pg3 { background: linear-gradient(135deg, #2a1a0e, #1a0a20, #0a1420); }
-    .pg4 { background: linear-gradient(135deg, #0a1c2c, #1a0a24, #0a1424); }
-    .pg5 { background: linear-gradient(135deg, #1a1a0a, #0a2012, #0a0e24); }
-    .pg6 { background: linear-gradient(135deg, #280a18, #1a0d28, #0a1820); }
 
-    /* ══ CONTACT ══ */
+    /* Education card — distinct */
+    .edu-card {
+      border-radius: var(--r-lg); padding: 24px; background: var(--panel);
+      border: 1px solid rgba(0,229,255,0.18);
+      position: relative; overflow: hidden;
+      box-shadow: 0 0 30px rgba(0,229,255,0.04) inset;
+    }
+    .edu-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--ice), var(--purple), transparent);
+    }
+    .edu-header { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+    .edu-icon { font-size: 2rem; line-height: 1; }
+    .edu-degree { font-family: var(--font-head); font-size: 1rem; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+    .edu-uni { font-family: var(--font-mono); font-size: 0.65rem; color: var(--ice); letter-spacing: 0.04em; }
+    .edu-cgpa { display: flex; align-items: baseline; gap: 6px; margin-bottom: 14px; }
+    .edu-cgpa-num { font-family: var(--font-head); font-size: 2.8rem; font-weight: 800; letter-spacing: -0.05em; color: var(--ice); text-shadow: 0 0 24px var(--ice-glow); line-height: 1; }
+    .edu-cgpa-lbl { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-dim); }
+    .edu-detail { border-top: 1px solid var(--border); padding-top: 12px; }
+    .edu-row { display: flex; flex-wrap: wrap; gap: 6px; }
+    .edu-tag { font-family: var(--font-mono); font-size: 0.58rem; color: var(--ice); background: rgba(0,229,255,0.07); border: 1px solid rgba(0,229,255,0.18); padding: 3px 10px; border-radius: var(--r-xs); }
     .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 38px; margin-top: 50px; }
     .contact-left { display: flex; flex-direction: column; gap: 12px; }
     .contact-intro { font-size: 1rem; color: var(--text-muted); line-height: 1.88; margin-bottom: 4px; }
@@ -913,8 +966,8 @@
 
             <p class="hero-bio reveal d3">
               I build things with React, Node.js, and some ML on the side.
-              Final year CS student, two internships done, three production
-              apps shipped. Currently looking for a <span class="hi">full-time role</span>.
+              Just graduated from CDLU (CS, 9.07 CGPA), two internships done, three
+              production apps shipped. <span class="hi">Open to full-time roles.</span>
             </p>
 
             <div class="hero-btns reveal d4">
@@ -944,75 +997,31 @@
             </div>
           </div>
 
-          <!-- RIGHT — Clean Dev Card -->
+          <!-- RIGHT — Profile Photo -->
           <div class="hero-right">
-            <div class="dev-card">
-              <div class="dev-card-bar">
-                <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
-                <div class="bar-title">jyoti@dev: ~/portfolio</div>
+            <div class="hero-photo-wrap">
+              <div class="hero-photo-ring">
+                <div class="hero-photo-inner">
+                  <img src="profile.png" alt="Jyoti Saini" />
+                </div>
               </div>
-              <div class="dev-card-body">
-
-                <div class="dc-line">
-                  <span class="dc-prompt">❯</span>
-                  <span class="dc-cmd">whoami</span>
-                </div>
-                <div class="dc-out">
-                  <span class="dc-key">name    </span><span class="dc-val"> Jyoti Saini</span><br>
-                  <span class="dc-key">role    </span><span class="dc-ice"> Full Stack Developer</span><br>
-                  <span class="dc-key">location</span><span class="dc-val"> Sirsa, Haryana 🇮🇳</span><br>
-                  <span class="dc-key">status  </span><span class="dc-lime"> ● open to work</span>
-                </div>
-
-                <div class="dc-spacer"></div>
-
-                <div class="dc-line">
-                  <span class="dc-prompt">❯</span>
-                  <span class="dc-cmd">cat stats.json</span>
-                </div>
-                <div class="dc-row" style="margin-top:8px;margin-bottom:8px;">
-                  <div class="dc-stat">
-                    <div class="dc-stat-num dc-rose">3</div>
-                    <div class="dc-stat-lbl">live apps</div>
-                  </div>
-                  <div class="dc-stat">
-                    <div class="dc-stat-num dc-ice">9.07</div>
-                    <div class="dc-stat-lbl">cgpa</div>
-                  </div>
-                  <div class="dc-stat">
-                    <div class="dc-stat-num" style="color:var(--lime);">2</div>
-                    <div class="dc-stat-lbl">internships</div>
-                  </div>
-                </div>
-
-                <div class="dc-spacer"></div>
-
-                <div class="dc-line">
-                  <span class="dc-prompt">❯</span>
-                  <span class="dc-cmd">ls projects/ --deployed</span>
-                </div>
-                <div style="margin-top:6px;margin-bottom:4px;">
-                  <div class="dc-proj-row">
-                    <span><span class="dc-check">✓</span><span class="dc-proj-name">CommitIQ</span></span>
-                    <span class="dc-proj-tag">live ↗</span>
-                  </div>
-                  <div class="dc-proj-row">
-                    <span><span class="dc-check">✓</span><span class="dc-proj-name">Ledgerline</span></span>
-                    <span class="dc-proj-tag">live ↗</span>
-                  </div>
-                  <div class="dc-proj-row">
-                    <span><span class="dc-check">✓</span><span class="dc-proj-name">AuditAlly</span></span>
-                    <span class="dc-proj-tag">live ↗</span>
-                  </div>
-                </div>
-
-                <div class="dc-spacer"></div>
-
-                <div class="dc-line">
-                  <span class="dc-prompt">❯</span>
-                  <span class="dc-cmd" id="termLive"></span><span class="dc-blink"></span>
-                </div>
-
+              <!-- Floating stat chips -->
+              <div class="hero-float-stat hfs-1">
+                <div class="hfs-num">3</div>
+                <div class="hfs-lbl">live apps</div>
+              </div>
+              <div class="hero-float-stat hfs-2">
+                <div class="hfs-num">9.07</div>
+                <div class="hfs-lbl">cgpa</div>
+              </div>
+              <div class="hero-float-stat hfs-3">
+                <div class="hfs-num">2</div>
+                <div class="hfs-lbl">internships</div>
+              </div>
+              <!-- Available badge -->
+              <div class="hero-avail-badge">
+                <span class="pulse"></span>
+                Available for hire
               </div>
             </div>
           </div>
@@ -1033,17 +1042,19 @@
           <div class="about-left">
             <div class="bio-card reveal d1">
               <p class="bio-text">
-                Final-year CS student at CDLU, Sirsa — <strong>CGPA 9.07</strong>. I write backend code that handles real problems.
-                Subscription detection that uses actual ML models. An accessibility auditor that reads violation logs and
-                explains them in plain English. A code platform where commits get AI-reviewed automatically.<br><br>
-                Two internships, three production apps, a lot of Stack Overflow, and I still get excited when
-                a <span class="hi">Redis pub/sub pipeline</span> clicks into place. Not every project is greenfield —
-                I like debugging other people's code too.
+                CS graduate from CDLU, Sirsa — <strong>CGPA 9.07 / 10</strong>, June 2026.
+                I write backend code that handles real problems.
+                Subscription detection with actual ML models. An accessibility auditor that reads
+                violation logs and explains them in plain English. A code platform where commits
+                get AI-reviewed automatically.<br><br>
+                Two internships, three live apps, a lot of Stack Overflow, and I still get excited when
+                a <span class="hi">Redis pub/sub pipeline</span> clicks into place.
+                Not every project is greenfield — I like debugging other people's code too.
               </p>
             </div>
             <div class="stats-row">
               <div class="stat-card reveal d2">
-                <div class="stat-num" data-target="6" data-suffix="+">0+</div>
+                <div class="stat-num" data-target="3" data-suffix="">0</div>
                 <div class="stat-lbl">Live Projects</div>
               </div>
               <div class="stat-card reveal d3">
@@ -1051,42 +1062,56 @@
                 <div class="stat-lbl">CGPA / 10</div>
               </div>
               <div class="stat-card reveal d4">
-                <div class="stat-num" data-target="2" data-suffix="+ yrs">0</div>
-                <div class="stat-lbl">Experience</div>
+                <div class="stat-num" data-target="2" data-suffix="">0</div>
+                <div class="stat-lbl">Internships</div>
               </div>
             </div>
           </div>
 
           <div class="about-right">
+            <!-- Experience card -->
             <div class="exp-card reveal d1 from-right">
-              <div class="exp-card-title">Experience &amp; Education</div>
+              <div class="exp-card-title">Work Experience</div>
               <div class="tl-item">
                 <div class="tl-date">Jul 2025 — Oct 2025</div>
                 <div class="tl-role">Full Stack Web Dev Intern</div>
                 <div class="tl-company">Code Alpha — Remote</div>
-                <div class="tl-desc">Built responsive React.js components with Node.js/Express backends, resolved UI/UX bugs cross-browser, and improved API response handling across multiple modules.</div>
+                <div class="tl-desc">Built React.js components with Node.js/Express backends, resolved cross-browser UI/UX bugs, improved API response handling across multiple modules.</div>
               </div>
               <div class="tl-item">
                 <div class="tl-date">Jul 2024 — Aug 2024</div>
                 <div class="tl-role">Frontend Development Intern</div>
                 <div class="tl-company">TechnoBuds — Noida</div>
-                <div class="tl-desc">Engineered dynamic web pages using HTML5, CSS3 and JavaScript focusing on clean UI structure and smooth interactions; delivered all modules on schedule.</div>
-              </div>
-              <div class="tl-item">
-                <div class="tl-date">2021 — June 2026</div>
-                <div class="tl-role">B.Tech — Computer Science Engg.</div>
-                <div class="tl-company">CDLU, Sirsa &nbsp;|&nbsp; CGPA: 9.07 / 10</div>
-                <div class="tl-desc">Focused on DSA, DBMS, OS, Networks, and AI. Class XII: 89.6% · Class X: 81.4% — KV Rewari (CBSE).</div>
+                <div class="tl-desc">Engineered dynamic web pages using HTML5, CSS3 and JavaScript; focused on clean UI structure and smooth interactions.</div>
               </div>
             </div>
-            <div class="tech-cloud reveal d2 from-right">
+
+            <!-- Education card — distinct style -->
+            <div class="edu-card reveal d2 from-right">
+              <div class="edu-header">
+                <div class="edu-icon">🎓</div>
+                <div>
+                  <div class="edu-degree">B.Tech — Computer Science Engg.</div>
+                  <div class="edu-uni">CDLU, Sirsa · Graduated June 2026</div>
+                </div>
+              </div>
+              <div class="edu-cgpa">
+                <span class="edu-cgpa-num">9.07</span>
+                <span class="edu-cgpa-lbl">/ 10 CGPA</span>
+              </div>
+              <div class="edu-detail">
+                <div class="edu-row"><span class="edu-tag">DSA</span><span class="edu-tag">DBMS</span><span class="edu-tag">OS</span><span class="edu-tag">Networks</span><span class="edu-tag">AI/ML</span></div>
+                <div style="margin-top:10px;font-size:0.76rem;color:var(--text-dim);">XII: 89.6% · X: 81.4% — KV Rewari (CBSE)</div>
+              </div>
+            </div>
+
+            <div class="tech-cloud reveal d3 from-right">
               <div class="tech-badge">⚛️ React.js</div><div class="tech-badge">▲ Next.js</div>
               <div class="tech-badge">🟩 Node.js</div><div class="tech-badge">🚂 Express.js</div>
               <div class="tech-badge">🍃 MongoDB</div><div class="tech-badge">🐘 PostgreSQL</div>
               <div class="tech-badge">⚡ Redis</div><div class="tech-badge">🐍 Python</div>
               <div class="tech-badge">📊 FastAPI</div><div class="tech-badge">🤖 Groq API</div>
               <div class="tech-badge">🎭 Puppeteer</div><div class="tech-badge">🐳 Docker</div>
-              <div class="tech-badge">📬 BullMQ</div><div class="tech-badge">🔌 Socket.io</div>
             </div>
           </div>
         </div>
@@ -1122,7 +1147,7 @@
           <h2 class="section-title">Things I've <span class="neon-text">built &amp; shipped</span></h2>
           <p class="section-sub">A selection of real-world projects spanning AI, real-time systems, and full stack web applications.</p>
         </div>
-        <div class="projects-grid" id="projectsGrid"></div>
+        <div class="projects-list" id="projectsGrid"></div>
       </div>
     </section>
 
@@ -1399,7 +1424,6 @@ const PROJECTS = [
   resize();
   window.addEventListener('resize', resize);
 
-  // Perspective grid + floating particles
   const pts = Array.from({length: 60}, () => ({
     x: Math.random() * 1400, y: Math.random() * 900,
     vx: (Math.random() - 0.5) * 0.25, vy: (Math.random() - 0.5) * 0.25,
@@ -1409,7 +1433,6 @@ const PROJECTS = [
   const PCOLS = ['255,45,120', '0,229,255', '180,255,57', '191,90,242'];
 
   function drawGrid() {
-    // Dot grid
     const spacing = 48;
     ctx.clearRect(0, 0, W, H);
     for (let x = 0; x < W; x += spacing) {
@@ -1456,7 +1479,7 @@ const PROJECTS = [
 /* ══ TYPEWRITER — TERMINAL ══ */
 (function() {
   const el = document.getElementById('termLive'); if (!el) return;
-  const cmds = ['git status','npm run dev','node server.js','npx create-react-app .','mongod --port 27017'];
+  const cmds = ['git status','npm run dev','node server.js','python main.py','docker-compose up'];
   let i = 0, ci = 0, del = false;
   function tick() {
     const cur = cmds[i];
@@ -1489,7 +1512,32 @@ function renderSkills() {
 }
 
 /* ══ RENDER PROJECTS ══ */
+const PROJ_THUMBS = ['commitiq.png','ledgerline.png','auditally.png'];
 function renderProjects() {
+  const grid = document.getElementById('projectsGrid'); if (!grid) return;
+  grid.innerHTML = PROJECTS.map((p,i) => `
+    <article class="project-card reveal" style="transition-delay:${i*0.12}s">
+      <div class="proj-thumb">
+        <img src="${PROJ_THUMBS[i] || ''}" alt="${p.title} screenshot" onerror="this.parentElement.classList.add('pg${i+1}')" />
+        <div class="proj-thumb-overlay"></div>
+        <span class="proj-num">${String(i+1).padStart(2,'0')}</span>
+        <div class="proj-icon">${p.icon}</div>
+      </div>
+      <div class="proj-body">
+        <div class="proj-title-ov">${p.title}</div>
+        <p class="proj-desc">${p.desc}</p>
+        <div class="proj-tags">${p.tags.map(t=>`<span class="proj-tag">${t}</span>`).join('')}</div>
+        <div class="proj-footer">
+          ${p.link && !p.link.includes('github.com')
+            ? `<a href="${p.link}" target="_blank" rel="noreferrer" class="proj-link">Live demo ↗</a>`
+            : p.link
+              ? `<a href="${p.link}" target="_blank" rel="noreferrer" class="proj-link">View code →</a>`
+              : `<span class="proj-link priv">Private / In Progress</span>`}
+          ${p.github ? `<a href="${p.github}" target="_blank" rel="noreferrer" class="proj-link" style="color:var(--ice)">GitHub →</a>` : ''}
+        </div>
+      </div>
+    </article>`).join('');
+} renderProjects() {
   const grid = document.getElementById('projectsGrid'); if (!grid) return;
   grid.innerHTML = PROJECTS.map((p,i) => `
     <article class="project-card reveal" style="transition-delay:${(i%3)*0.1}s">
