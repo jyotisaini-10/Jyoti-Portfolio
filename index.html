@@ -333,7 +333,7 @@
     .mobile-menu .nav-cta { font-size: 1rem; padding: 13px 38px; margin-top: 16px; }
 
     /* ═══════════════════════════════════════
-       HERO — Terminal-First Asymmetric
+       HERO — 50/50 Split
     ═══════════════════════════════════════ */
     .hero {
       min-height: calc(100vh - 60px);
@@ -342,7 +342,7 @@
     }
     .hero-inner {
       display: grid;
-      grid-template-columns: 380px 1fr;
+      grid-template-columns: 1fr 1fr;
       width: 100%; align-items: center;
       border-bottom: 1px solid var(--border);
     }
@@ -405,55 +405,78 @@
     .social-chip svg { width: 11px; height: 11px; fill: currentColor; flex-shrink: 0; }
     .social-chip:hover { border-color: var(--rose); color: var(--rose); background: rgba(255,45,120,0.07); transform: translateY(-2px); }
 
-    /* Right: Terminal */
-    .hero-term-wrap {
-      padding: 40px 40px 40px 48px;
-      display: flex; align-items: center; position: relative;
+    /* Right: Profile photo + floating code animation */
+    .hero-visual {
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+      background: radial-gradient(ellipse at 60% 40%, rgba(255,45,120,0.06) 0%, transparent 65%),
+                  radial-gradient(ellipse at 30% 70%, rgba(0,229,255,0.05) 0%, transparent 60%);
     }
-    .hero-term {
-      width: 100%; max-width: 660px;
-      background: rgba(3,3,14,0.96);
-      border: 1px solid rgba(255,45,120,0.22);
-      border-radius: var(--r-lg); overflow: hidden;
-      box-shadow:
-        0 0 0 1px rgba(0,229,255,0.05) inset,
-        0 40px 100px rgba(0,0,0,0.8),
-        0 0 60px rgba(255,45,120,0.08);
-      font-family: var(--font-mono);
+    .hero-photo-stage {
+      position: relative; width: 340px; height: 340px;
     }
-    .term-chrome {
-      display: flex; align-items: center; gap: 10px;
-      padding: 12px 16px; background: rgba(255,255,255,0.025);
-      border-bottom: 1px solid rgba(255,45,120,0.12);
+    /* Spinning conic ring */
+    .hps-ring {
+      position: absolute; inset: -14px; border-radius: 50%;
+      background: conic-gradient(
+        var(--rose) 0deg, var(--purple) 90deg,
+        var(--ice) 180deg, var(--lime) 270deg, var(--rose) 360deg
+      );
+      animation: ring-spin 7s linear infinite;
+      opacity: 0.85;
     }
-    .tc-dots { display: flex; gap: 6px; }
-    .tc-dot   { width: 10px; height: 10px; border-radius: 50%; }
-    .tc-dot.r { background: #ff5f57; } .tc-dot.y { background: #ffbd2e; } .tc-dot.g { background: #28c840; }
-    .tc-path  { flex: 1; text-align: center; font-size: 0.58rem; color: var(--text-dim); letter-spacing: 0.06em; }
-    .term-output {
-      padding: 22px 24px 28px;
-      font-size: 0.78rem; line-height: 1.85;
-      color: var(--text-muted);
-      min-height: 320px;
+    .hps-ring-inner {
+      position: absolute; inset: 3px; border-radius: 50%;
+      background: var(--bg);
     }
-    .to-cmd  { color: var(--ice); }
-    .to-prompt { color: var(--rose); margin-right: 8px; text-shadow: 0 0 8px var(--rose-glow); }
-    .to-key  { color: var(--text-dim); }
-    .to-val  { color: var(--text); }
-    .to-accent { color: var(--ice); text-shadow: 0 0 8px var(--ice-glow); font-weight: 600; }
-    .to-open { color: var(--lime); font-weight: 600; }
-    .to-check { color: var(--lime); margin-right: 6px; }
-    .to-proj { color: var(--rose); font-weight: 600; }
-    .to-dim  { color: var(--text-dim); }
-    .to-comment { color: var(--text-dim); font-style: italic; }
-    .to-blank { display: block; height: 0.5em; }
-    .term-cursor {
-      display: inline-block; width: 8px; height: 1em;
-      background: var(--rose); vertical-align: middle;
-      animation: t-blink 0.9s step-end infinite;
-      box-shadow: 0 0 8px var(--rose-glow);
+    @keyframes ring-spin { to { transform: rotate(360deg); } }
+    /* Second slower ring */
+    .hps-ring2 {
+      position: absolute; inset: -28px; border-radius: 50%;
+      border: 1px dashed rgba(0,229,255,0.2);
+      animation: ring-spin 18s linear infinite reverse;
     }
-    @keyframes t-blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
+    .hps-ring2::before {
+      content: ''; position: absolute; top: -5px; left: calc(50% - 5px);
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--ice); box-shadow: 0 0 10px var(--ice-glow);
+    }
+    /* Photo itself */
+    .hps-photo {
+      position: absolute; inset: 4px; border-radius: 50%;
+      overflow: hidden; z-index: 2;
+    }
+    .hps-photo img {
+      width: 100%; height: 100%; object-fit: cover; object-position: center top;
+    }
+    /* Floating code fragments */
+    .code-float {
+      position: absolute; font-family: var(--font-mono); font-weight: 600;
+      border-radius: var(--r-xs); padding: 5px 10px;
+      backdrop-filter: blur(10px); white-space: nowrap;
+      animation: cfloat 4s ease-in-out infinite;
+      z-index: 3; pointer-events: none; line-height: 1.3;
+    }
+    .cf1 { top: -20px; right: -30px; font-size: 0.68rem; color: var(--rose); background: rgba(255,45,120,0.1); border: 1px solid rgba(255,45,120,0.3); animation-delay: 0s; }
+    .cf2 { bottom: 10px; left: -50px; font-size: 0.62rem; color: var(--ice); background: rgba(0,229,255,0.08); border: 1px solid rgba(0,229,255,0.25); animation-delay: 1.1s; }
+    .cf3 { top: 60px; right: -55px; font-size: 0.6rem; color: var(--lime); background: rgba(180,255,57,0.08); border: 1px solid rgba(180,255,57,0.25); animation-delay: 0.6s; }
+    .cf4 { bottom: 80px; left: -40px; font-size: 0.64rem; color: var(--purple); background: rgba(191,90,242,0.08); border: 1px solid rgba(191,90,242,0.25); animation-delay: 1.7s; }
+    .cf5 { top: 150px; right: -50px; font-size: 0.58rem; color: var(--text-dim); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); animation-delay: 2.3s; }
+    @keyframes cfloat {
+      0%,100% { transform: translateY(0px) rotate(0deg); }
+      33%      { transform: translateY(-10px) rotate(1deg); }
+      66%      { transform: translateY(-5px) rotate(-0.5deg); }
+    }
+    /* Available badge below photo */
+    .hps-avail {
+      position: absolute; bottom: -28px; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 8px; white-space: nowrap;
+      background: rgba(4,4,18,0.92); border: 1px solid rgba(180,255,57,0.3);
+      padding: 7px 18px; border-radius: 100px;
+      font-family: var(--font-mono); font-size: 0.62rem; color: var(--lime);
+      box-shadow: 0 0 20px rgba(180,255,57,0.1);
+      animation: cfloat 5s ease-in-out infinite;
+    }
 
     /* ═══════════════════════════════════════
        ABOUT
@@ -581,12 +604,11 @@
     .skill-tile.hidden { display: none; }
 
     /* ═══════════════════════════════════════
-       PROJECTS — Carousel
+       PROJECTS — Vertical Scroll
     ═══════════════════════════════════════ */
     #projects { padding: 80px 0 120px; }
     .proj-section-head {
-      display: flex; align-items: flex-end; justify-content: space-between;
-      margin-bottom: 56px; flex-wrap: wrap; gap: 20px;
+      margin-bottom: 56px;
     }
     .proj-section-head h2 {
       font-family: var(--font-head); font-size: clamp(2rem, 4vw, 3rem);
@@ -594,130 +616,97 @@
       color: var(--text);
     }
     .proj-section-head h2 em { font-style: normal; color: var(--rose); text-shadow: 0 0 18px var(--rose-glow); }
-    .proj-counter {
-      font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim);
-      letter-spacing: 0.1em; padding-bottom: 4px;
-    }
-    .proj-counter span { color: var(--rose); font-size: 1.1rem; font-weight: 700; }
 
-    /* Carousel wrapper */
-    .proj-carousel { position: relative; }
-    .pc-track { overflow: hidden; border-radius: var(--r-xl); }
-    .pc-slide {
-      display: none;
-      grid-template-columns: 1.1fr 1fr;
-      gap: 0; min-height: 440px;
+    /* Vertical scroll projects list */
+    .projects-list { display: flex; flex-direction: column; gap: 36px; }
+    .pj-card {
+      display: grid; grid-template-columns: 1.05fr 1fr;
       background: var(--panel); border: 1px solid var(--border);
-      border-radius: var(--r-xl); overflow: hidden;
-      animation: slide-in 0.5s cubic-bezier(.22,.68,0,1.2) both;
+      border-radius: var(--r-xl); overflow: hidden; min-height: 400px;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
     }
-    .pc-slide.active { display: grid; }
-    @keyframes slide-in {
-      from { opacity: 0; transform: translateX(30px); }
-      to   { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes slide-in-left {
-      from { opacity: 0; transform: translateX(-30px); }
-      to   { opacity: 1; transform: translateX(0); }
-    }
-    .pc-slide.from-left { animation-name: slide-in-left; }
-
+    .pj-card:nth-child(even) { grid-template-columns: 1fr 1.05fr; }
+    .pj-card:nth-child(even) .pj-browser { order: 2; border-left: 1px solid var(--border); border-right: none; }
+    .pj-card:nth-child(even) .pj-info    { order: 1; }
+    .pj-card:hover { border-color: rgba(255,45,120,0.28); transform: translateY(-4px); box-shadow: 0 28px 70px rgba(0,0,0,0.5), 0 0 40px rgba(255,45,120,0.07); }
     /* Browser mockup */
-    .pc-browser {
-      display: flex; flex-direction: column;
-      border-right: 1px solid var(--border); overflow: hidden;
-      background: #0c0c20;
+    .pj-browser {
+      display: flex; flex-direction: column; overflow: hidden;
+      background: #0b0b1c; border-right: 1px solid var(--border);
     }
-    .pc-chrome {
+    .pj-chrome {
       display: flex; align-items: center; gap: 10px;
       padding: 10px 14px; background: rgba(255,255,255,0.02);
       border-bottom: 1px solid var(--border); flex-shrink: 0;
     }
-    .pc-chrome-dots { display: flex; gap: 5px; }
-    .pc-chrome-dots span { width: 9px; height: 9px; border-radius: 50%; }
-    .pc-chrome-dots span:nth-child(1) { background: #ff5f57; }
-    .pc-chrome-dots span:nth-child(2) { background: #ffbd2e; }
-    .pc-chrome-dots span:nth-child(3) { background: #28c840; }
-    .pc-url-bar {
+    .pj-dots { display: flex; gap: 5px; }
+    .pj-dots span { width: 9px; height: 9px; border-radius: 50%; }
+    .pj-dots span:nth-child(1) { background: #ff5f57; }
+    .pj-dots span:nth-child(2) { background: #ffbd2e; }
+    .pj-dots span:nth-child(3) { background: #28c840; }
+    .pj-url-bar {
       flex: 1; background: rgba(255,255,255,0.04); border: 1px solid var(--border);
-      border-radius: 4px; padding: 4px 10px;
+      border-radius: 4px; padding: 4px 10px; white-space: nowrap;
       font-family: var(--font-mono); font-size: 0.58rem; color: var(--text-dim);
-      letter-spacing: 0.02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      overflow: hidden; text-overflow: ellipsis;
     }
-    .pc-screen {
-      flex: 1; overflow: hidden; position: relative;
+    .pj-screen { flex: 1; overflow: hidden; position: relative; }
+    .pj-screen img {
+      width: 100%; height: 100%; object-fit: cover; object-position: top;
+      transition: transform 0.6s ease; display: block;
     }
-    .pc-screen img {
-      width: 100%; height: 100%; object-fit: cover; object-position: top center;
-      transition: transform 0.6s ease;
-      display: block;
+    .pj-card:hover .pj-screen img { transform: scale(1.04); }
+    .pj-screen-fb {
+      width: 100%; height: 100%; display: flex; align-items: center;
+      justify-content: center; font-size: 3.5rem; background: var(--panel-2);
     }
-    .pc-slide:hover .pc-screen img { transform: scale(1.04); }
-    .pc-screen-fallback {
-      width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;
-      font-size: 3rem;
+    /* Info panel */
+    .pj-info {
+      padding: 36px 36px 32px;
+      display: flex; flex-direction: column; justify-content: center; gap: 14px;
     }
-
-    /* Slide info panel */
-    .pc-info {
-      padding: 40px 40px 36px;
-      display: flex; flex-direction: column; justify-content: center; gap: 16px;
+    .pj-num {
+      font-family: var(--font-mono); font-size: 0.58rem; color: var(--text-dim);
+      letter-spacing: 0.18em; text-transform: uppercase;
     }
-    .pc-idx {
-      font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-dim);
-      letter-spacing: 0.15em; text-transform: uppercase;
-    }
-    .pc-name {
-      font-family: var(--font-head); font-size: 2rem; font-weight: 800;
+    .pj-name {
+      font-family: var(--font-head); font-size: 1.9rem; font-weight: 800;
       letter-spacing: -0.04em; color: var(--text); line-height: 1;
     }
-    .pc-desc {
-      font-size: 0.84rem; color: var(--text-muted); line-height: 1.75; flex: 1;
+    .pj-desc {
+      font-size: 0.83rem; color: var(--text-muted); line-height: 1.8; flex: 1;
     }
-    .pc-tags { display: flex; flex-wrap: wrap; gap: 5px; }
-    .pc-tag {
-      font-family: var(--font-mono); font-size: 0.54rem; color: var(--ice);
+    .pj-url-link {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-family: var(--font-mono); font-size: 0.64rem; color: var(--ice);
+      text-decoration: none; transition: color 0.2s, text-shadow 0.2s;
+      margin-top: 2px;
+    }
+    .pj-url-link:hover { color: var(--rose); text-shadow: 0 0 8px var(--rose-glow); }
+    .pj-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .pj-tag {
+      font-family: var(--font-mono); font-size: 0.53rem; color: var(--ice);
       background: rgba(0,229,255,0.07); border: 1px solid rgba(0,229,255,0.18);
       padding: 3px 9px; border-radius: var(--r-xs);
     }
-    .pc-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
-    .pc-live-btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-family: var(--font-head); font-weight: 700; font-size: 0.82rem;
-      padding: 10px 22px; border-radius: var(--r-sm);
+    .pj-actions { display: flex; gap: 10px; flex-wrap: wrap; padding-top: 6px; border-top: 1px solid var(--border); }
+    .pj-live {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-family: var(--font-head); font-weight: 700; font-size: 0.8rem;
+      padding: 9px 20px; border-radius: var(--r-sm);
       background: var(--rose); color: #fff;
       clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
-      box-shadow: 0 0 20px var(--rose-glow);
+      box-shadow: 0 0 18px var(--rose-glow);
       transition: transform 0.2s, box-shadow 0.2s;
     }
-    .pc-live-btn:hover { transform: translateY(-2px); box-shadow: 0 0 32px var(--rose-glow); }
-    .pc-gh-btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);
-      padding: 10px 18px; border-radius: var(--r-sm); border: 1px solid var(--border);
+    .pj-live:hover { transform: translateY(-2px); box-shadow: 0 0 30px var(--rose-glow); }
+    .pj-gh {
+      display: inline-flex; align-items: center; gap: 7px;
+      font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted);
+      padding: 9px 16px; border-radius: var(--r-sm); border: 1px solid var(--border);
       transition: border-color 0.2s, color 0.2s, transform 0.2s;
     }
-    .pc-gh-btn:hover { border-color: var(--ice); color: var(--ice); transform: translateY(-2px); }
-
-    /* Navigation */
-    .pc-nav {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-top: 24px; padding: 0 4px;
-    }
-    .pc-arrow {
-      display: flex; align-items: center; justify-content: center;
-      width: 44px; height: 44px; border-radius: 50%;
-      border: 1px solid var(--border-hi); color: var(--text-muted);
-      font-size: 1.4rem; font-family: var(--font-head);
-      transition: border-color 0.2s, color 0.2s, transform 0.2s, box-shadow 0.2s;
-    }
-    .pc-arrow:hover { border-color: var(--rose); color: var(--rose); transform: scale(1.1); box-shadow: 0 0 18px var(--rose-glow); }
-    .pc-dots-nav { display: flex; align-items: center; gap: 8px; }
-    .pc-dot {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--border-hi); border: none; padding: 0;
-      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
-    }
+    .pj-gh:hover { border-color: var(--ice); color: var(--ice); transform: translateY(-2px); }
     .pc-dot.active { background: var(--rose); transform: scale(1.3); box-shadow: 0 0 10px var(--rose-glow); }
     .pc-progress { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-dim); letter-spacing: 0.1em; }
 
@@ -798,9 +787,12 @@
        RESPONSIVE
     ═══════════════════════════════════════ */
     @media (max-width: 1100px) {
-      .hero-inner { grid-template-columns: 320px 1fr; }
-      .pc-slide   { grid-template-columns: 1fr; min-height: auto; }
-      .pc-browser { border-right: none; border-bottom: 1px solid var(--border); max-height: 280px; }
+      .hero-photo-stage { width: 280px; height: 280px; }
+      .pj-card { grid-template-columns: 1fr; min-height: auto; }
+      .pj-card:nth-child(even) { grid-template-columns: 1fr; }
+      .pj-card:nth-child(even) .pj-browser { order: 0; border-left: none; border-right: none; border-bottom: 1px solid var(--border); }
+      .pj-card:nth-child(even) .pj-info { order: 0; }
+      .pj-browser { border-right: none; border-bottom: 1px solid var(--border); max-height: 280px; }
     }
     @media (max-width: 900px) {
       .nav-links, .nav-cta { display: none; }
@@ -811,13 +803,12 @@
         padding: 50px 24px 40px; height: auto;
       }
       .hero-id::after { display: none; }
-      .hero-term-wrap { padding: 32px 24px 48px; }
+      .hero-visual { padding: 48px 24px 56px; min-height: 340px; }
       .hero-actions { flex-direction: row; }
       .hero-actions .btn-primary,
       .hero-actions .btn-ghost { width: auto; }
       .about-grid { grid-template-columns: 1fr; }
       .contact-grid { grid-template-columns: 1fr; }
-      .proj-section-head { flex-direction: column; align-items: flex-start; }
     }
     @media (max-width: 640px) {
       section { padding: 70px 0; }
@@ -825,11 +816,10 @@
       .hero-fn { font-size: 3.2rem; }
       .hero-ln { font-size: 2.6rem; }
       .stats-row { grid-template-columns: repeat(2,1fr); }
-      .pc-slide { min-height: auto; }
-      .pc-info  { padding: 24px 22px; }
-      .pc-name  { font-size: 1.5rem; }
-      .pc-live-btn, .pc-gh-btn { padding: 9px 16px; font-size: 0.76rem; }
-      .term-output { min-height: 220px; font-size: 0.7rem; }
+      .hero-photo-stage { width: 240px; height: 240px; }
+      .pj-info { padding: 22px 20px; }
+      .pj-name { font-size: 1.5rem; }
+      .pj-live, .pj-gh { padding: 8px 14px; font-size: 0.75rem; }
     }
   </style>
 </head>
@@ -952,18 +942,29 @@
             </div>
           </div>
 
-          <!-- RIGHT: Terminal (dominant visual) -->
-          <div class="hero-term-wrap">
-            <div class="hero-term">
-              <div class="term-chrome">
-                <div class="tc-dots">
-                  <span class="tc-dot r"></span>
-                  <span class="tc-dot y"></span>
-                  <span class="tc-dot g"></span>
-                </div>
-                <div class="tc-path">jyoti@portfolio:~$</div>
+          <!-- RIGHT: Profile photo + floating code animation -->
+          <div class="hero-visual">
+            <div class="hero-photo-stage">
+              <!-- Outer orbit ring -->
+              <div class="hps-ring2"></div>
+              <!-- Spinning conic border -->
+              <div class="hps-ring">
+                <div class="hps-ring-inner"></div>
               </div>
-              <div class="term-output" id="heroTermOutput"></div>
+              <!-- Photo -->
+              <div class="hps-photo">
+                <img src="profile.png" alt="Jyoti Saini" />
+              </div>
+              <!-- Floating code fragments -->
+              <div class="code-float cf1">const dev = 'jyoti'</div>
+              <div class="code-float cf2">git commit -m ✨</div>
+              <div class="code-float cf3">cgpa: 9.07</div>
+              <div class="code-float cf4">npm run ship</div>
+              <div class="code-float cf5">// open to work</div>
+              <!-- Available badge -->
+              <div class="hps-avail">
+                <span class="pulse"></span> Available for hire
+              </div>
             </div>
           </div>
 
@@ -1089,24 +1090,15 @@
       </section>
 
       <!-- ═══════════════════════════════════════
-           PROJECTS — One at a Time Carousel
+           PROJECTS — Vertical Scroll
       ═══════════════════════════════════════ -->
       <section id="projects">
         <div class="container">
           <div class="proj-section-head reveal">
             <h2>Things I've built<br><em>&amp; shipped</em></h2>
-            <div class="proj-counter">project <span id="pcCurrentLabel">01</span> / 03</div>
           </div>
-
-          <div class="proj-carousel reveal d1">
-            <div class="pc-track" id="pcTrack">
-              <!-- slides injected by JS -->
-            </div>
-            <div class="pc-nav">
-              <button class="pc-arrow" id="pcPrev" aria-label="Previous project">‹</button>
-              <div class="pc-dots-nav" id="pcDots"></div>
-              <button class="pc-arrow" id="pcNext" aria-label="Next project">›</button>
-            </div>
+          <div class="projects-list reveal d1" id="projectsList">
+            <!-- cards injected by JS -->
           </div>
         </div>
       </section>
@@ -1460,93 +1452,42 @@ function renderSkills() {
 }
 
 /* ═══════════════════════════════════════
-   PROJECT CAROUSEL
+   RENDER PROJECTS — Vertical Scroll
 ═══════════════════════════════════════ */
-function initCarousel() {
-  const track   = document.getElementById('pcTrack');
-  const dotsNav = document.getElementById('pcDots');
-  const prevBtn = document.getElementById('pcPrev');
-  const nextBtn = document.getElementById('pcNext');
-  const label   = document.getElementById('pcCurrentLabel');
-  if (!track) return;
-
-  let current = 0;
-  let direction = 1; // 1 = forward, -1 = back
-
-  // Build slides
-  PROJECTS.forEach((p, i) => {
-    const slide = document.createElement('div');
-    slide.className = 'pc-slide' + (i === 0 ? ' active' : '');
-    slide.innerHTML = `
-      <div class="pc-browser">
-        <div class="pc-chrome">
-          <div class="pc-chrome-dots"><span></span><span></span><span></span></div>
-          <div class="pc-url-bar">🔒 ${p.url}</div>
+function renderProjects() {
+  const list = document.getElementById('projectsList');
+  if (!list) return;
+  list.innerHTML = PROJECTS.map((p, i) => `
+    <div class="pj-card reveal" style="transition-delay:${i * 0.1}s">
+      <div class="pj-browser">
+        <div class="pj-chrome">
+          <div class="pj-dots"><span></span><span></span><span></span></div>
+          <div class="pj-url-bar">🔒 ${p.url}</div>
         </div>
-        <div class="pc-screen">
+        <div class="pj-screen">
           <img src="${p.thumb}" alt="${p.title} screenshot"
-               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
-          <div class="pc-screen-fallback" style="display:none;background:var(--panel-2)">${p.icon}</div>
+               onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+          <div class="pj-screen-fb">${p.icon}</div>
         </div>
       </div>
-      <div class="pc-info">
-        <div class="pc-idx">0${i+1} / 0${PROJECTS.length}</div>
-        <h3 class="pc-name">${p.title}</h3>
-        <p class="pc-desc">${p.desc}</p>
-        <div class="pc-tags">${p.tags.map(t => `<span class="pc-tag">${t}</span>`).join('')}</div>
-        <div class="pc-actions">
-          <a href="${p.link}" target="_blank" rel="noreferrer" class="pc-live-btn">
+      <div class="pj-info">
+        <div class="pj-num">0${i + 1} &mdash; ${p.tags[0]}</div>
+        <h3 class="pj-name">${p.title}</h3>
+        <p class="pj-desc">${p.desc}</p>
+        <a href="${p.link}" target="_blank" rel="noreferrer" class="pj-url-link">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
+          ${p.url}
+        </a>
+        <div class="pj-tags">${p.tags.map(t => `<span class="pj-tag">${t}</span>`).join('')}</div>
+        <div class="pj-actions">
+          <a href="${p.link}" target="_blank" rel="noreferrer" class="pj-live">
             View Live
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg>
           </a>
-          <a href="${p.github}" target="_blank" rel="noreferrer" class="pc-gh-btn">
-            GitHub →
-          </a>
+          <a href="${p.github}" target="_blank" rel="noreferrer" class="pj-gh">GitHub →</a>
         </div>
-      </div>`;
-    track.appendChild(slide);
-
-    // Dot
-    const dot = document.createElement('button');
-    dot.className = 'pc-dot' + (i === 0 ? ' active' : '');
-    dot.setAttribute('aria-label', `Go to project ${i+1}`);
-    dot.addEventListener('click', () => goTo(i));
-    dotsNav.appendChild(dot);
-  });
-
-  function goTo(i) {
-    if (i === current) return;
-    direction = i > current ? 1 : -1;
-    const slides = track.querySelectorAll('.pc-slide');
-    const dots   = dotsNav.querySelectorAll('.pc-dot');
-    slides[current].classList.remove('active');
-    dots[current].classList.remove('active');
-    current = (i + PROJECTS.length) % PROJECTS.length;
-    slides[current].classList.remove('from-left');
-    slides[current].classList.add('active');
-    if (direction < 0) slides[current].classList.add('from-left');
-    dots[current].classList.add('active');
-    if (label) label.textContent = String(current + 1).padStart(2, '0');
-    // Re-trigger animation
-    void slides[current].offsetWidth;
-  }
-
-  prevBtn?.addEventListener('click', () => goTo(current - 1));
-  nextBtn?.addEventListener('click', () => goTo(current + 1));
-
-  // Keyboard
-  document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowLeft')  goTo(current - 1);
-    if (e.key === 'ArrowRight') goTo(current + 1);
-  });
-
-  // Touch swipe
-  let touchStartX = 0;
-  track.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
-  track.addEventListener('touchend',   e => {
-    const dx = e.changedTouches[0].clientX - touchStartX;
-    if (Math.abs(dx) > 50) goTo(dx < 0 ? current + 1 : current - 1);
-  }, { passive: true });
+      </div>
+    </div>`).join('');
 }
 
 /* ═══════════════════════════════════════
@@ -1665,10 +1606,9 @@ if (fyEl) fyEl.textContent = new Date().getFullYear();
    INIT
 ═══════════════════════════════════════ */
 renderSkills();
-initCarousel();
+renderProjects();
 requestAnimationFrame(() => requestAnimationFrame(() => {
   initReveal();
-  initHeroTerminal();
 }));
 initCounters();
 initNav();
