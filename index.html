@@ -322,11 +322,14 @@
       animation-delay: 0s;
     }
     .photo-tag.tag-avail .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--olive); }
-    .photo-tag.tag-cgpa {
-      bottom: 60px; right: -60px; animation-delay: 1.6s;
+    .photo-tag.tag-role {
+      bottom: 60px; right: -64px; animation-delay: 1.6s;
+      display: flex; align-items: center; gap: 8px;
+      background: var(--dark); color: var(--bg);
+      font-family: var(--font-head); font-size: 0.72rem; font-weight: 700;
+      border: none; box-shadow: 0 8px 24px rgba(26,24,18,0.18);
     }
-    .tag-cgpa .cgpa-num { font-family: var(--font-head); font-size: 1.6rem; font-weight: 800; color: var(--dark); line-height: 1; }
-    .tag-cgpa .cgpa-lbl { font-family: var(--font-mono); font-size: 0.55rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; }
+    .photo-tag.tag-role .role-icon { font-size: 0.9rem; line-height: 1; }
 
     /* Corner accent circle */
     .photo-accent {
@@ -642,7 +645,7 @@
       .hero-arch { width: 240px; height: 300px; border-radius: 120px 120px 16px 16px; }
       .hero-photo-wrap { width: 240px; }
       .photo-tag.tag-avail { left: -20px; }
-      .photo-tag.tag-cgpa  { right: -20px; }
+      .photo-tag.tag-role  { right: -20px; }
       .about-stats { grid-template-columns: 1fr 1fr; }
     }
   </style>
@@ -753,9 +756,8 @@
         <div class="photo-tag tag-avail">
           <span class="dot"></span> Open to work
         </div>
-        <div class="photo-tag tag-cgpa">
-          <div class="cgpa-num">9.07</div>
-          <div class="cgpa-lbl">CGPA / 10</div>
+        <div class="photo-tag tag-role">
+          <span class="role-icon">💻</span> Full Stack Developer
         </div>
       </div>
     </div>
