@@ -172,10 +172,44 @@
     .mob-menu .nav-link { font-size: 1.4rem; border-radius: 8px; }
 
     /* ═══════════════════════════════════════
+       TICKER / MARQUEE
+    ═══════════════════════════════════════ */
+    .ticker-wrap {
+      width: 100%; overflow: hidden;
+      background: var(--dark);
+      padding: 13px 0;
+    }
+    .ticker-track {
+      display: flex; align-items: center;
+      width: max-content;
+      animation: ticker-scroll 28s linear infinite;
+    }
+    .ticker-track:hover { animation-play-state: paused; }
+    @keyframes ticker-scroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .ticker-item {
+      display: flex; align-items: center;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .ticker-text {
+      font-family: var(--font-head); font-weight: 700;
+      font-size: 0.72rem; letter-spacing: 0.14em;
+      text-transform: uppercase; color: #fff;
+      padding: 0 24px;
+    }
+    .ticker-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--terra); flex-shrink: 0;
+    }
+
+    /* ═══════════════════════════════════════
        LAYOUT
     ═══════════════════════════════════════ */
     .container { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
     section { padding: 100px 0; }
+
 
     /* ═══════════════════════════════════════
        SPARKLES
@@ -805,6 +839,38 @@
       </div>
     </div>
   </section>
+
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+    <div class="ticker-track">
+      <!-- First copy -->
+      <div class="ticker-item"><span class="ticker-text">Full Stack Development</span><span class="ticker-dot"></span></div>
+      <div class="ticker-item"><span class="ticker-text">React.js</span><span class="ticker-dot"></span></div>
+      <div class="ticker-item"><span class="ticker-text">Node.js</span><span class="ticker-dot"></span></div>
+      <div class="ticker-item"><span class="ticker-text">Python</span><span class="ticker-dot"></span></div>
+      <div class="ticker-item"><span class="ticker-text">AI Integration</span><span class="ticker-dot"></span></div>
+      <div class="ticker-item"><span class="ticker-text">MongoDB</span><span class="ticker-dot"></span></div>
+      <div class="ticker-item"><span class="ticker-text">Redis</span><span class="ticker-dot"></span></div>
+      <div class="ticker-item"><span class="ticker-text">Docker</span><span class="ticker-dot"></span></div>
+      <div class="ticker-item"><span class="ticker-text">PostgreSQL</span><span class="ticker-dot"></span></div>
+      <div class="ticker-item"><span class="ticker-text">Next.js</span><span class="ticker-dot"></span></div>
+      <div class="ticker-item"><span class="ticker-text">Express.js</span><span class="ticker-dot"></span></div>
+      <div class="ticker-item"><span class="ticker-text">Open to Work</span><span class="ticker-dot"></span></div>
+      <!-- Duplicate for seamless loop -->
+      <div class="ticker-item"><span class="ticker-text">Full Stack Development</span><span class="ticker-dot"></span></div>
+      <div class="ticker-item"><span class="ticker-text">React.js</span><span class="ticker-dot"></span></div>
+      <div class="ticker-item"><span class="ticker-text">Node.js</span><span class="ticker-dot"></span></div>
+      <div class="ticker-item"><span class="ticker-text">Python</span><span class="ticker-dot"></span></div>
+      <div class="ticker-item"><span class="ticker-text">AI Integration</span><span class="ticker-dot"></span></div>
+      <div class="ticker-item"><span class="ticker-text">MongoDB</span><span class="ticker-dot"></span></div>
+      <div class="ticker-item"><span class="ticker-text">Redis</span><span class="ticker-dot"></span></div>
+      <div class="ticker-item"><span class="ticker-text">Docker</span><span class="ticker-dot"></span></div>
+      <div class="ticker-item"><span class="ticker-text">PostgreSQL</span><span class="ticker-dot"></span></div>
+      <div class="ticker-item"><span class="ticker-text">Next.js</span><span class="ticker-dot"></span></div>
+      <div class="ticker-item"><span class="ticker-text">Express.js</span><span class="ticker-dot"></span></div>
+      <div class="ticker-item"><span class="ticker-text">Open to Work</span><span class="ticker-dot"></span></div>
+    </div>
+  </div>
 
   <!-- ═══════════════ ABOUT ═══════════════ -->
   <section id="about">
