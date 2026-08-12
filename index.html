@@ -89,45 +89,84 @@
     }
 
     /* ═══════════════════════════════════════
-       NAVBAR
+       NAVBAR — 3 column: label | logo | links
     ═══════════════════════════════════════ */
     .navbar {
       position: sticky; top: 0; z-index: 500;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 48px; height: 64px;
-      background: rgba(244,240,230,0.92); border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(20px);
+      display: grid; grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 40px; height: 62px;
+      background: rgba(244,240,230,0.96); border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(24px);
       transition: transform .35s, box-shadow .3s;
     }
-    .navbar.hidden { transform: translateY(-100%); }
-    .navbar.scrolled { box-shadow: 0 2px 24px rgba(26,24,18,0.08); }
+    .navbar.hidden   { transform: translateY(-100%); }
+    .navbar.scrolled { box-shadow: 0 2px 20px rgba(26,24,18,0.07); }
+
+    /* Left: role label */
+    .nav-label {
+      font-family: var(--font-mono); font-size: 0.58rem; font-weight: 500;
+      color: var(--dim); letter-spacing: 0.14em; text-transform: uppercase;
+    }
+
+    /* Center: name logo */
     .nav-logo {
       font-family: var(--font-serif); font-style: italic; font-weight: 700;
-      font-size: 1.2rem; color: var(--dark); letter-spacing: -0.02em;
+      font-size: 1.25rem; color: var(--dark); letter-spacing: -0.02em;
+      text-align: center; white-space: nowrap;
     }
-    .nav-logo span { color: var(--terra); font-style: normal; }
-    .nav-links { display: flex; gap: 2px; }
+
+    /* Right: links + CTA */
+    .nav-right {
+      display: flex; align-items: center; gap: 2px;
+      justify-content: flex-end;
+    }
     .nav-link {
-      font-family: var(--font-body); font-size: 0.8rem; font-weight: 500;
-      color: var(--muted); padding: 6px 14px; border-radius: 4px;
-      transition: color .2s, background .2s; letter-spacing: 0.02em;
+      font-family: var(--font-body); font-size: 0.78rem; font-weight: 500;
+      color: var(--muted); padding: 5px 13px; border-radius: 100px;
+      transition: color .2s, background .2s; letter-spacing: 0.01em;
+      white-space: nowrap;
     }
-    .nav-link:hover, .nav-link.active { color: var(--dark); background: rgba(26,24,18,0.06); }
-    .nav-right { display: flex; align-items: center; gap: 12px; }
-    .nav-avail {
-      display: flex; align-items: center; gap: 7px;
-      font-family: var(--font-mono); font-size: 0.6rem; color: var(--olive);
-      background: rgba(61,92,53,0.08); border: 1px solid rgba(61,92,53,0.2);
-      padding: 5px 12px; border-radius: 100px; letter-spacing: 0.04em;
+    .nav-link:hover { color: var(--dark); }
+    .nav-link.active {
+      background: var(--dark); color: var(--bg);
+      font-weight: 600;
     }
-    .nav-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--olive); animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.5;transform:scale(1.4);} }
     .nav-cta {
-      font-family: var(--font-head); font-weight: 700; font-size: 0.78rem;
-      background: var(--dark); color: var(--bg); padding: 8px 20px;
-      border-radius: 100px; transition: background .2s, transform .2s;
+      font-family: var(--font-head); font-weight: 700; font-size: 0.75rem;
+      background: var(--dark); color: var(--bg); padding: 8px 18px;
+      border-radius: 100px; margin-left: 10px;
+      transition: background .2s, transform .2s; white-space: nowrap;
     }
     .nav-cta:hover { background: var(--terra); transform: translateY(-1px); }
+
+    /* Subtitle bar below navbar */
+    .nav-sub {
+      position: sticky; top: 62px; z-index: 499;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; height: 32px;
+      background: rgba(244,240,230,0.95);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(16px);
+      transition: transform .35s;
+    }
+    .nav-sub.hidden { transform: translateY(-200%); }
+    .nav-sub-left {
+      font-family: var(--font-mono); font-size: 0.55rem; font-weight: 500;
+      color: var(--dim); letter-spacing: 0.16em; text-transform: uppercase;
+    }
+    .nav-sub-right {
+      display: flex; align-items: center; gap: 7px;
+      font-family: var(--font-mono); font-size: 0.55rem; font-weight: 500;
+      color: var(--dim); letter-spacing: 0.12em; text-transform: uppercase;
+    }
+    .nav-sub-dot {
+      width: 5px; height: 5px; border-radius: 50%; background: var(--olive);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.5;transform:scale(1.5);} }
+
+    /* Hamburger */
     .nav-ham { display: none; flex-direction: column; gap: 5px; padding: 8px; }
     .nav-ham span { display: block; width: 22px; height: 1.5px; background: var(--dark); border-radius: 2px; transition: transform .3s, opacity .3s; }
     .nav-ham.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);}
@@ -138,7 +177,7 @@
       background: var(--bg); flex-direction: column; align-items: center; justify-content: center; gap: 28px;
     }
     .mob-menu.open { display: flex; }
-    .mob-menu .nav-link { font-size: 1.4rem; }
+    .mob-menu .nav-link { font-size: 1.4rem; border-radius: 8px; }
 
     /* ═══════════════════════════════════════
        LAYOUT
@@ -670,22 +709,29 @@
 
   <!-- NAVBAR -->
   <header class="navbar" id="navbar">
-    <a href="#home" class="nav-logo">Jyoti <span>Saini</span></a>
-    <nav class="nav-links">
+    <!-- Left: role label -->
+    <div class="nav-label">UI / Full Stack Dev</div>
+    <!-- Center: name logo -->
+    <a href="#home" class="nav-logo">Jyoti Saini</a>
+    <!-- Right: links + CTA -->
+    <div class="nav-right">
       <a href="#home"     class="nav-link" data-s="home"    >Home</a>
-      <a href="#about"    class="nav-link" data-s="about"   >About</a>
       <a href="#projects" class="nav-link" data-s="projects">Work</a>
       <a href="#skills"   class="nav-link" data-s="skills"  >Skills</a>
+      <a href="#about"    class="nav-link" data-s="about"   >About</a>
       <a href="#contact"  class="nav-link" data-s="contact" >Contact</a>
-    </nav>
-    <div class="nav-right">
-      <div class="nav-avail"><span class="nav-dot"></span> Available for work</div>
       <a href="#contact" class="nav-cta">Get in touch</a>
+      <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
     </div>
-    <button class="nav-ham" id="navHam" aria-label="Menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
   </header>
+
+  <!-- SUBTITLE BAR -->
+  <div class="nav-sub" id="navSub">
+    <div class="nav-sub-left">Full Stack Developer &amp; CS Graduate</div>
+    <div class="nav-sub-right"><span class="nav-sub-dot"></span> Available for full-time roles</div>
+  </div>
 
   <!-- MOBILE MENU -->
   <div class="mob-menu" id="mobMenu">
@@ -1043,14 +1089,17 @@ window.addEventListener('scroll',()=>{
 
 /* NAVBAR */
 (function(){
-  const nav=document.getElementById('navbar'), ham=document.getElementById('navHam'), mob=document.getElementById('mobMenu');
+  const nav=document.getElementById('navbar'), sub=document.getElementById('navSub');
+  const ham=document.getElementById('navHam'), mob=document.getElementById('mobMenu');
   const links=document.querySelectorAll('.nav-link[data-s]');
   let lastY=0;
   window.addEventListener('scroll',()=>{
     const y=window.scrollY;
     nav.classList.toggle('scrolled',y>40);
-    nav.classList.toggle('hidden',y>lastY&&y>80);
-    if(y<lastY||y<80) nav.classList.remove('hidden');
+    const hide=y>lastY&&y>80;
+    nav.classList.toggle('hidden',hide);
+    if(sub) sub.classList.toggle('hidden',hide);
+    if(y<lastY||y<80){ nav.classList.remove('hidden'); if(sub) sub.classList.remove('hidden'); }
     lastY=y;
     let cur='home';
     ['home','about','projects','skills','contact'].forEach(id=>{
