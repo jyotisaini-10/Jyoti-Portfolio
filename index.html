@@ -93,8 +93,7 @@
     ═══════════════════════════════════════ */
     .navbar {
       position: sticky; top: 0; z-index: 500;
-      display: grid; grid-template-columns: 1fr auto 1fr;
-      align-items: center;
+      display: flex; align-items: center; justify-content: space-between;
       padding: 0 40px; height: 62px;
       background: rgba(244,240,230,0.96); border-bottom: 1px solid var(--border);
       backdrop-filter: blur(24px);
@@ -103,17 +102,10 @@
     .navbar.hidden   { transform: translateY(-100%); }
     .navbar.scrolled { box-shadow: 0 2px 20px rgba(26,24,18,0.07); }
 
-    /* Left: role label */
-    .nav-label {
-      font-family: var(--font-mono); font-size: 0.58rem; font-weight: 500;
-      color: var(--dim); letter-spacing: 0.14em; text-transform: uppercase;
-    }
-
-    /* Center: name logo */
+    /* Logo */
     .nav-logo {
       font-family: var(--font-serif); font-style: italic; font-weight: 700;
       font-size: 1.25rem; color: var(--dark); letter-spacing: -0.02em;
-      text-align: center; white-space: nowrap;
     }
 
     /* Right: links + CTA */
@@ -709,11 +701,7 @@
 
   <!-- NAVBAR -->
   <header class="navbar" id="navbar">
-    <!-- Left: role label -->
-    <div class="nav-label">UI / Full Stack Dev</div>
-    <!-- Center: name logo -->
     <a href="#home" class="nav-logo">Jyoti Saini</a>
-    <!-- Right: links + CTA -->
     <div class="nav-right">
       <a href="#home"     class="nav-link" data-s="home"    >Home</a>
       <a href="#projects" class="nav-link" data-s="projects">Work</a>
