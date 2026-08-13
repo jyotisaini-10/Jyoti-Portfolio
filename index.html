@@ -366,6 +366,26 @@
       margin-left: -120px;
     }
 
+    /* Background watermark text behind photo */
+    .orbit-bg-text {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 0;
+      text-align: center;
+      pointer-events: none; user-select: none;
+      line-height: 1.1;
+    }
+    .orbit-bg-text span {
+      display: block;
+      font-family: var(--font-head); font-weight: 800;
+      letter-spacing: -0.03em;
+      color: transparent;
+      -webkit-text-stroke: 1.5px rgba(26,24,18,0.13);
+    }
+    .orbit-bg-text .obt-1 { font-size: 1.6rem; }
+    .orbit-bg-text .obt-2 { font-size: 2rem; }
+
     /* Center photo */
     .orbit-photo {
       position: absolute;
@@ -843,6 +863,11 @@
         <svg class="orbit-ring-svg" viewBox="0 0 420 420" fill="none" aria-hidden="true">
           <circle cx="210" cy="210" r="185" stroke="rgba(26,24,18,0.15)" stroke-width="1.5" stroke-dasharray="6 6"/>
         </svg>
+        <!-- Background text behind photo -->
+        <div class="orbit-bg-text" aria-hidden="true">
+          <span class="obt-1">AI</span>
+          <span class="obt-2">INTEGRATION</span>
+        </div>
         <!-- Center photo -->
         <div class="orbit-photo">
           <img src="profile.png" alt="Jyoti Saini" />
