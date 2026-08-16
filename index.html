@@ -1350,6 +1350,20 @@
     }
 
     .proj-desc { font-size: 0.92rem; color: var(--muted); line-height: 1.82; flex: 1; }
+    .proj-bullets {
+      list-style: none; padding: 0; margin: 0;
+      display: flex; flex-direction: column; gap: 8px;
+      flex: 1;
+    }
+    .proj-bullets li {
+      font-size: 0.88rem; color: var(--muted); line-height: 1.75;
+      padding-left: 16px; position: relative;
+    }
+    .proj-bullets li::before {
+      content: '▸';
+      position: absolute; left: 0; top: 1px;
+      color: var(--terra); font-size: 0.7rem;
+    }
 
     .proj-livelink {
       display: inline-flex;
@@ -2356,21 +2370,33 @@
     const PROJECTS = [
       {
         title: 'CommitIQ', url: 'commit-iq-self.vercel.app',
-        desc: 'GitHub-style code hosting platform — JWT auth, repo management, commit history, diff viewer, AI-generated commit messages via Groq, semantic code search. Full Docker deployment.',
+        bullets: [
+          'Architected a full-stack, GitHub-style code hosting platform with JWT-based auth, repository management, issues, and commit operations, containerized with Docker.',
+          'Built a layered backend with RESTful routes, Mongoose models, and an AI services layer integrating the Groq LLM API for auto-generated commit messages and AI-driven code review.',
+          'Implemented commit history, diff visualization, an AI merge-conflict resolver, and semantic code search using vector embeddings.',
+        ],
         tags: ['React.js', 'Node.js', 'MongoDB', 'Redis', 'Groq API', 'Docker'],
         thumb: 'commitiq.png', icon: '🔀',
         link: 'https://commit-iq-self.vercel.app/', github: 'https://github.com/jyotisaini-10'
       },
       {
         title: 'Ledgerline', url: 'ledgerline-flax.vercel.app',
-        desc: 'Fintech app that detects recurring subscriptions and scores transaction anomaly risk — Isolation Forest + unsupervised clustering, not an LLM. Real-time alerts via Redis pub/sub + SSE.',
+        bullets: [
+          'Built a fintech app that automatically detects recurring subscriptions and flags unusual transactions in real time, using trained ML models rather than an LLM wrapper.',
+          'Implemented an unsupervised clustering model that detects subscriptions despite merchant renaming or price changes, and a per-user Isolation Forest that scores every transaction for anomaly risk.',
+          'Designed a real-time alert pipeline using Redis pub/sub and Server-Sent Events, with the full stack containerized via Docker Compose for one-command deployment.',
+        ],
         tags: ['Next.js', 'Node.js', 'PostgreSQL', 'Redis', 'Python', 'FastAPI', 'scikit-learn'],
         thumb: 'ledgerline.png', icon: '📊',
         link: 'https://ledgerline-flax.vercel.app/', github: 'https://github.com/jyotisaini-10'
       },
       {
         title: 'AuditAlly', url: 'audit-ally-seven.vercel.app',
-        desc: 'Scans any URL with Puppeteer + axe-core for WCAG violations, then pipes results through Groq LLM for plain-English fixes. Async job queue via BullMQ, regression tracking over time.',
+        bullets: [
+          'Built a full-stack accessibility auditing tool that scans URLs with Puppeteer and axe-core, then uses an LLM to translate violations into plain-language explanations and code fixes.',
+          'Designed an async scanning pipeline with BullMQ and Redis for job queuing and result caching, keeping the UI responsive and LLM costs low on repeat scans.',
+          'Added scan-over-time regression tracking and a severity-weighted accessibility score to support real-world remediation workflows.',
+        ],
         tags: ['React.js', 'Node.js', 'Puppeteer', 'axe-core', 'BullMQ', 'Redis', 'Groq API'],
         thumb: 'auditally.png', icon: '♿',
         link: 'https://audit-ally-seven.vercel.app/', github: 'https://github.com/jyotisaini-10'
@@ -2470,7 +2496,7 @@
       <div class="proj-info">
         <div class="proj-num">0${i + 1} — ${p.tags[0]}</div>
         <h3 class="proj-name">${p.title}</h3>
-        <p class="proj-desc">${p.desc}</p>
+        <ul class="proj-bullets">${p.bullets.map(b => `<li>${b}</li>`).join('')}</ul>
         <a href="${p.link}" target="_blank" rel="noreferrer" class="proj-livelink">↗ ${p.url}</a>
         <div class="proj-tags">${p.tags.map(t => `<span class="proj-tag">${t}</span>`).join('')}</div>
         <div class="proj-actions">
