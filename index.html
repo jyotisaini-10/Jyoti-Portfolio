@@ -479,7 +479,7 @@
        HERO — Alex Morgan / Han Nguyen style
     ═══════════════════════════════════════ */
     .hero {
-      min-height: calc(100vh - 64px);
+      min-height: calc(100vh - 94px);
       position: relative;
       overflow: hidden;
       display: grid;
@@ -562,7 +562,7 @@
 
     /* Left panel */
     .hero-left {
-      padding: 80px 64px 80px 0;
+      padding: 48px 48px 48px 0;
       display: flex;
       flex-direction: column;
       position: relative;
@@ -1830,118 +1830,79 @@
     /* ═══════════════════════════════════════
        RESPONSIVE
     ═══════════════════════════════════════ */
+    /* ══ 1100px ══ */
     @media (max-width: 1100px) {
-      .hero {
-        grid-template-columns: 1fr 380px;
-      }
-
-      .orbit-system {
-        width: 360px;
-        height: 360px;
-      }
-
-      .orbit-photo {
-        width: 210px;
-        height: 210px;
-      }
-
-      .proj-card {
-        grid-template-columns: 1fr;
-        min-height: auto;
-      }
-
-      .proj-card:nth-child(even) {
-        grid-template-columns: 1fr;
-      }
-
-      .proj-card:nth-child(even) .proj-browser {
-        order: 0;
-        border-left: none;
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-      }
-
-      .proj-card:nth-child(even) .proj-info {
-        order: 0;
-      }
-
-      .proj-browser {
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-        max-height: 260px;
-      }
+      .hero { grid-template-columns: 1fr 360px; }
+      .orbit-system { width: 340px; height: 340px; margin-left: -60px; }
+      .orbit-photo  { width: 200px; height: 200px; }
+      .proj-card { grid-template-columns: 1fr; min-height: auto; }
+      .proj-card:nth-child(even) { grid-template-columns: 1fr; }
+      .proj-card:nth-child(even) .proj-browser { order: 0; border-left: none; border-right: none; border-bottom: 1px solid var(--border); }
+      .proj-card:nth-child(even) .proj-info { order: 0; }
+      .proj-browser { border-right: none; border-bottom: 1px solid var(--border); max-height: 260px; }
     }
 
+    /* ══ 900px ══ */
     @media (max-width: 900px) {
-
-      .nav-links,
-      .nav-avail,
-      .nav-cta {
-        display: none;
-      }
-
-      .nav-ham {
-        display: flex;
-      }
-
-      .navbar {
-        padding: 0 24px;
-      }
+      .nav-right > .nav-link,
+      .nav-cta { display: none; }
+      .nav-ham { display: flex; }
+      .navbar  { padding: 0 20px; }
+      .nav-sub { padding: 0 20px; }
 
       .hero {
         grid-template-columns: 1fr;
         min-height: auto;
       }
-
       .hero-left {
-        padding: 60px 0 40px;
+        padding: 40px 20px 30px;
+        order: 1;
       }
-
       .hero-right {
-        padding: 0 0 60px;
-        justify-content: flex-start;
+        padding: 20px 0 0;
+        justify-content: center;
+        order: 0;
       }
+      .orbit-system {
+        width: 320px; height: 320px;
+        margin-left: 0;
+      }
+      .orbit-photo { width: 190px; height: 190px; }
 
-      .about-grid {
-        grid-template-columns: 1fr;
-        gap: 36px;
-      }
-
-      .contact-grid {
-        grid-template-columns: 1fr;
-      }
+      .about-grid   { grid-template-columns: 1fr; gap: 32px; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .proj-info    { padding: 24px; }
+      .proj-name    { font-size: 1.5rem; }
     }
 
+    /* ══ 640px ══ */
     @media (max-width: 640px) {
-      .container {
-        padding: 0 20px;
-      }
+      .container   { padding: 0 16px; }
+      section      { padding: 56px 0; }
+      .hero-name   { font-size: 3rem; }
+      .hero-bio    { font-size: 0.86rem; }
+      .hero-btns   { flex-wrap: wrap; gap: 10px; }
+      .hero-socials { flex-wrap: wrap; gap: 8px; }
+      .hero-avail-label { font-size: 0.52rem; }
+      .hero-role   { font-size: 0.65rem; }
+      .orbit-system { width: 280px; height: 280px; }
+      .orbit-photo  { width: 160px; height: 160px; }
+      .orb-label   { display: none; }
+      .orb-badge   { padding: 5px 8px; }
+      .about-stats { grid-template-columns: 1fr 1fr; }
+      .astat-num   { font-size: 2rem; }
+      .dark-card   { padding: 18px; }
+      .skills-grid { grid-template-columns: repeat(auto-fill, minmax(120px,1fr)); }
+      .proj-bullets li { font-size: 0.8rem; }
+      .ticker-text { font-size: 0.62rem; }
+      .nav-sub     { display: none; }
+    }
 
-      section {
-        padding: 70px 0;
-      }
-
-      .hero-name {
-        font-size: 3.6rem;
-      }
-
-      .orbit-system {
-        width: 300px;
-        height: 300px;
-      }
-
-      .orbit-photo {
-        width: 170px;
-        height: 170px;
-      }
-
-      .orb-label {
-        display: none;
-      }
-
-      .about-stats {
-        grid-template-columns: 1fr 1fr;
-      }
+    /* ══ 400px ══ */
+    @media (max-width: 400px) {
+      .hero-name { font-size: 2.4rem; }
+      .orbit-system { width: 240px; height: 240px; }
+      .orbit-photo  { width: 140px; height: 140px; }
     }
   </style>
 </head>
