@@ -1889,6 +1889,42 @@
       color: var(--gold-lt);
       font-weight: 600;
     }
+    .cert-img-wrap {
+      width: 100%;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      cursor: zoom-in;
+      position: relative;
+    }
+    .cert-img-wrap img {
+      width: 100%; height: auto;
+      display: block;
+      transition: transform .35s;
+    }
+    .cert-img-wrap:hover img { transform: scale(1.03); }
+    /* Lightbox */
+    .cert-lb {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(10,10,10,.85);
+      z-index: 9999;
+      align-items: center; justify-content: center;
+      backdrop-filter: blur(8px);
+    }
+    .cert-lb.open { display: flex; }
+    .cert-lb img {
+      max-width: 90vw; max-height: 88vh;
+      border-radius: 10px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.6);
+    }
+    .cert-lb-close {
+      position: absolute; top: 20px; right: 24px;
+      font-size: 2rem; color: #fff;
+      cursor: pointer; line-height: 1;
+      opacity: .7;
+    }
+    .cert-lb-close:hover { opacity: 1; }
 
     /* ═══════════════════════════════════════
        RESPONSIVE
@@ -2299,6 +2335,9 @@
       <div class="cert-grid">
 
         <div class="cert-card rv d1">
+          <div class="cert-img-wrap" onclick="openCertLb('cert1.png')">
+            <img src="cert1.png" alt="Internship Studio Certificate of Participation" loading="lazy" />
+          </div>
           <div class="cert-issuer">Internship Studio</div>
           <div class="cert-title">Certificate of Participation — Common Internship Test</div>
           <div class="cert-meta">
@@ -2309,6 +2348,9 @@
         </div>
 
         <div class="cert-card rv d2">
+          <div class="cert-img-wrap" onclick="openCertLb('cert2.png')">
+            <img src="cert2.png" alt="CodeAlpha Letter of Recommendation" loading="lazy" />
+          </div>
           <div class="cert-issuer">CodeAlpha</div>
           <div class="cert-title">Letter of Recommendation — Web Development Internship</div>
           <div class="cert-meta">
@@ -2319,6 +2361,9 @@
         </div>
 
         <div class="cert-card rv d3">
+          <div class="cert-img-wrap" onclick="openCertLb('cert3.png')">
+            <img src="cert3.png" alt="CodeAlpha Certificate of Completion" loading="lazy" />
+          </div>
           <div class="cert-issuer">CodeAlpha · MSME Certified</div>
           <div class="cert-title">Certificate of Completion — Virtual Internship, Web Development</div>
           <div class="cert-meta">
@@ -2329,6 +2374,9 @@
         </div>
 
         <div class="cert-card rv d1">
+          <div class="cert-img-wrap" onclick="openCertLb('cert4.png')">
+            <img src="cert4.png" alt="TechnoBuds Internship Completion Letter" loading="lazy" />
+          </div>
           <div class="cert-issuer">TechnoBuds · Noida</div>
           <div class="cert-title">Internship Completion Letter — Web Development Team</div>
           <div class="cert-meta">
@@ -2339,6 +2387,9 @@
         </div>
 
         <div class="cert-card rv d2">
+          <div class="cert-img-wrap" onclick="openCertLb('cert5.png')">
+            <img src="cert5.png" alt="30 Days Coding MERN Certificate" loading="lazy" />
+          </div>
           <div class="cert-issuer">30 Days Coding</div>
           <div class="cert-title">Certificate of Completion — Job Ready MERN Full-Stack Web Development</div>
           <div class="cert-meta">
@@ -2714,7 +2765,29 @@
     renderProjects();
     requestAnimationFrame(() => requestAnimationFrame(() => { initReveal(); }));
     initCounters();
+
+    /* ── Certificate Lightbox ── */
+    function openCertLb(src) {
+      const lb = document.getElementById('certLb');
+      document.getElementById('certLbImg').src = src;
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeCertLb() {
+      document.getElementById('certLb').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    document.getElementById('certLb').addEventListener('click', function(e) {
+      if (e.target === this) closeCertLb();
+    });
   </script>
+
+  <!-- Certificate Lightbox -->
+  <div class="cert-lb" id="certLb">
+    <span class="cert-lb-close" onclick="closeCertLb()">&#10005;</span>
+    <img id="certLbImg" src="" alt="Certificate" />
+  </div>
+
 </body>
 
 </html>
